@@ -1,0 +1,138 @@
+.timeline-wrapper {
+  position: relative;
+  margin: 2rem 0;
+  padding: 1rem 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #c79b3b, rgba(199,155,59,0.22));
+  transform: translateX(-50%);
+  border-radius: 999px;
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.timeline-item.left {
+  justify-content: flex-start;
+}
+
+.timeline-item.right {
+  justify-content: flex-end;
+}
+
+.timeline-card {
+  width: 47%;
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.625);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: scale(1.03);
+  border-color: #c79b3b;
+}
+
+.timeline-year,
+.timeline-company,
+.timeline-location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timeline-year {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.timeline-card h4 {
+  margin: 0.75rem 0;
+}
+
+.timeline-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.timeline-tags span {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #c79b3b;
+  font-size: 0.8rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(to right, #c79b3b, #c79b3b);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  border: 4px solid #000;
+}
+
+.timeline-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.timeline-modal-content {
+  max-width: 600px;
+  width: 100%;
+  padding: 2rem;
+  border-radius: 18px;
+  background: #dbd0d0;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .timeline-line,
+  .timeline-dot {
+    left: 12px;
+  }
+
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    justify-content: flex-start;
+    padding-left: 2rem;
+  }
+
+  .timeline-card {
+    width: 100%;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* apply only from the second timeline item onward */
+.timeline-wrapper .timeline-item:nth-of-type(n + 3) {
+  margin-top: -6rem;
+}

@@ -61,7 +61,7 @@ This project is licensed under the MIT License.
 ### Food / Health Blogger Example
 ![Food Blogger Example](https://github.com/Pfrommer1982/Complete_Portfolio/assets/90003610/c732e0a2-19f9-4400-adf9-bfe588d6a2fe)
 
-
+## Photo by buzzybee on FreeImages
 
 
 

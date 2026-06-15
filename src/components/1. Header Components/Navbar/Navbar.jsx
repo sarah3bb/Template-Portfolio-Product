@@ -42,15 +42,14 @@ const Navbar = () => {
 
           <div className={`collapse navbar-collapse justify-content-center ${isMenuOpen ? 'show slide-in' : ''}`}>
             <ul className="navbar-nav">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a href="#Skills" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
                   <span className='link-span'>Skills</span>
                 </a>
-              </li>
+              </li> */}
               <li className="nav-item">
-                <a href="#Projects" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
-
-                  <span className='link-span'>Projects</span>
+                <a href="#Experience" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
+                  <span className='link-span'>Experience</span>
                 </a>
               </li>
               <li className="nav-item">
@@ -63,13 +62,13 @@ const Navbar = () => {
                   <span className='link-span'>Contact Me</span>
                 </a>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a href={url} className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
                   <span className='link-span'>
                     Resume<i className="icon lni lni-download"></i>
                   </span>
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

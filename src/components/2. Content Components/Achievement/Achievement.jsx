@@ -23,12 +23,12 @@ const Achievement = () => {
         <div className="row">
           <div className="col-lg-10 offset-lg-1 col-md-12 col-12">
             <div className="title">
-              <h2>"Lorem ipsum dolor sit amet, consectetur adipiscing"</h2>
-              <p>Fusce at libero id massa ornare molestie sed eu tellus.</p>
+              <h2>Sales Manager</h2>
+              <h3>The University of Sydney, Class of 2024</h3>
             </div>
           </div>
         </div>
-        <div className="row">
+        {/* <div className="row">
           <div className="col-lg-8 offset-lg-2 col-md-12 col-12">
             <div className="row">
               {achievements.map((info, index) => (
@@ -43,10 +43,10 @@ const Achievement = () => {
                     <p>{info.word}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+              ))} */}
+            {/* </div> */}
+          {/* </div> */}
+        {/* </div> */}
       </div>
     </section>
   );

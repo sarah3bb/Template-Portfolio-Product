@@ -7,6 +7,7 @@ import Hero from './components/1. Header Components/Hero/Hero';
 import Skillz from './components/2. Content Components/Skillz/Skillz';
 import Achievement from './components/2. Content Components/Achievement/Achievement';
 import Projects from './components/2. Content Components/Projects/Projects';
+import TimelineSection from "./components/2. Content Components/Timeline/TimelineSection";
 
 
 // 3. Footer Component
@@ -36,10 +37,11 @@ function App() {
       ) : (
         <>
           <Hero />
-          <Skillz />
           <ScrollToTopButton />
           <Achievement />
+          <TimelineSection />
           <Projects />
+          {/* <Skillz /> */}
           <AboutMe />
           
         </>

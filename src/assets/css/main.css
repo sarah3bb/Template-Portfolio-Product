@@ -1,19 +1,38 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Oswald:wght@200&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Oswald:wght@200&display=swap'); */
 
-@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Oswald:wght@200&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Oswald:wght@200&display=swap'); */
 
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Inter:wght@400;500;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+
+@font-face {
+  font-family: 'Arrow';
+  src: url('/fonts/Almo_Andrea_FontlabARROW.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Amethysta';
+  src: url('/fonts/Amethysta-Regular.ttf') format('truetype');
+}
+
 :root {
-  --light-white: #f2fbfc ;
+  --light-white: #eefbfc ;
   --light-color: #ffffff;
-  --medium-color: #B9BAB3;
-  --dark-color: #001F26;
-  --highlight-color: #cfe5eb;
-  --accent-color: #6d8a92;
+  --medium-color: #000000;
+  --dark-color: #c79b3b;
+  --highlight-color: #ffffff;
+  --accent-color: #c79b3b;
 
 }
 
@@ -33,25 +52,48 @@ body {
   font-weight: normal;
   font-style: normal;
   overflow-x: hidden;
-  
+  /* text-align: left; */
 }
 
 h1, h2, h3 {
-  font-family: 'Alex Brush', sans-serif;
+  /* font-family: 'Alex Brush', sans-serif; */
+  /* font-family: Arial, sans-serif; */
+  /* font-family: 'Poppins', sans-serif; */
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Amethysta', serif;
 }
 
 p {
-  font-family: 'Oswald', sans-serif;
+  /* font-family: 'Oswald', sans-serif; */
+  /* font-family: Arial, sans-serif; */
+  /* font-family: 'Poppins', sans-serif; */
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Amethysta', serif;
+  text-align: left;
 }
 
 /* h2  {
   font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Amethysta', serif;
 } */
 
-h3 {
+/* h3 {
   font-family: 'PT Sans', sans-serif;
-}
+  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Amethysta', serif;
+} */
 
+h5 {
+  /* font-family: Arial, sans-serif; */
+  /* font-family: 'Poppins', sans-serif; */
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Amethysta', serif;
+  text-align: center !important;
+}
 
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {

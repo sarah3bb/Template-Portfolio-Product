@@ -27,7 +27,7 @@
   margin-bottom: 20px;
   text-transform: uppercase;
   color: var(--medium-color);
-  font-family: 'Bebas Neue', cursive;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
 }
 
 .pulse-loader {

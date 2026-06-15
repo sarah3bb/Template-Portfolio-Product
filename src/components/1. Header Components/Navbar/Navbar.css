@@ -63,6 +63,10 @@
 
 .nav-link:hover {
   text-decoration: none;
+  /* background-color: var(--highlight-color); */
+  color: rgb(0, 0, 0);
+  box-shadow: 0px 5px 20px var(--accent-color);
+  border-radius: 6px;
 }
 
 .link-span {
@@ -150,7 +154,7 @@
     background-color: var(--medium-color);
     transition: right 0.3s;
     z-index: 999;
-    box-shadow: var(--dark-color) 5px;
+    box-shadow: var(--light-color) 5px;
   }
 
   .navbar-open .navbar-collapse {
