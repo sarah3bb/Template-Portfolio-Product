@@ -15,6 +15,7 @@ import AchievementsSection from '../components/dashboard/AchievementsSection';
 import HobbiesSection from '../components/dashboard/HobbiesSection';
 import ContactFormSection from '../components/dashboard/ContactFormSection';
 
+import QRCodeModal from '../components/dashboard/QRCodeModal';
 import '../components/dashboard/Dashboard.css';
 
 export default function DashboardPage() {
@@ -25,6 +26,7 @@ export default function DashboardPage() {
   const [form, setForm] = useState(null);
   const [slugError, setSlugError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [showQR, setShowQR] = useState(false);
 
   useEffect(() => {
     if (portfolio) setForm({ ...portfolio });
@@ -92,6 +94,13 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-page">
+      {showQR && (
+        <QRCodeModal
+          url={publicUrl}
+          slug={form.slug}
+          onClose={() => setShowQR(false)}
+        />
+      )}
       {/* Sticky top bar */}
       <div className="dash-topbar">
         <div className="dash-topbar-left">
@@ -104,6 +113,9 @@ export default function DashboardPage() {
           </a>
           <button className="btn-copy-link" onClick={handleCopyLink} title="Copy your public portfolio link">
             {copied ? '✓ Copied!' : '📋 Copy Link'}
+          </button>
+          <button className="btn-copy-link" onClick={() => setShowQR(true)} title="Download QR code">
+            📱 QR Code
           </button>
           {saveSuccess && <span className="save-status-success">✓ Saved!</span>}
           {error && <span className="save-status-error">⚠ {error}</span>}
