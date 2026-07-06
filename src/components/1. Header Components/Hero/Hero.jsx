@@ -1,64 +1,60 @@
 import React from 'react';
-import { name, company, socialProfiles, backgroundImageUrl } from '../../../your_info';
 import Navbar from '../Navbar/Navbar';
 import Typewriter from '../Typewriter/Typewriter';
 import './Hero.css';
 
-const Hero = () => {
-  const { firstname, lastname, profileImage } = name;
+const Hero = ({ portfolio }) => {
+  if (!portfolio) return null;
+  const { name = {}, company = {}, socialProfiles = [], backgroundImageUrl = '' } = portfolio;
+  const { firstname = '', lastname = '', profileImage = '' } = name;
 
-  const heroStyle = {
-    backgroundImage: `url(${backgroundImageUrl})`,
-  };
+  const heroStyle = backgroundImageUrl
+    ? { backgroundImage: `url(${backgroundImageUrl})` }
+    : {};
 
   return (
     <section id='Home' className='hero-area' style={heroStyle}>
-      <Navbar />
+      <Navbar portfolio={portfolio} />
 
       <div className='container'>
         <div className='row align-items-center hero-row'>
 
           {/* LEFT SIDE (TEXT) */}
           <div className='col-lg-6 hero-content text-left'>
-            <div className='company-container wow fadeInLeft' data-wow-delay='.3s'>
-              <h1 className='company-name'>{company.name}</h1>
-
-              <div className='company-logos'>
-                {company.logos.map((logo, index) => (
-                  <img src={logo} alt={`company logo ${index + 1}`} key={index} />
-                ))}
+            {company.name && (
+              <div className='company-container wow fadeInLeft' data-wow-delay='.3s'>
+                <h1 className='company-name'>{company.name}</h1>
+                {company.logos && company.logos.length > 0 && (
+                  <div className='company-logos'>
+                    {company.logos.map((logo, index) => (
+                      <img src={logo} alt={`company logo ${index + 1}`} key={index} />
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
-
-            {/* <div className='name-container wow fadeInLeft' data-wow-delay='.4s'>
-              <h2>{firstname} {lastname}</h2>
-            </div> */}
+            )}
 
             <div className='name-container wow fadeInLeft' data-wow-delay='.4s'>
               <h2>{firstname} {lastname}</h2>
-
-              {/* NEW: Contact Info */}
               <div className='contact-info'>
-                <p>📧 kokoro.araki1015@gmail.com</p>
-                <p>📞 +61 422 547 431</p>
+                {portfolio.email && <p>📧 {portfolio.email}</p>}
+                {portfolio.phone && <p>📞 {portfolio.phone}</p>}
               </div>
             </div>
 
             <div className='typewriter-container wow fadeInLeft' data-wow-delay='.6s'>
-              <Typewriter />
+              <Typewriter typeWriterText={portfolio.typeWriterText} />
             </div>
           </div>
+
           {/* RIGHT SIDE (IMAGE) */}
-          {/* <div className='col-lg-6 hero-image-container wow fadeInRight' data-wow-delay='.6s'>
-            <img src={profileImage} alt="profile" className="hero-image" />
-          </div> */}
           <div className='col-lg-6 hero-image-container wow fadeInRight' data-wow-delay='.6s'>
-            <img src={profileImage} alt="profile" className="hero-image" />
+            {profileImage && (
+              <img src={profileImage} alt="profile" className="hero-image" />
+            )}
 
             <div className='image-socials'>
-
-              {/* Existing socials (LinkedIn) */}
-              {socialProfiles.map((profile, index) => (
+              {(socialProfiles || []).map((profile, index) => (
                 <a
                   href={profile.url}
                   id='button'
@@ -66,24 +62,24 @@ const Hero = () => {
                   key={index}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={profile.name}
+                  aria-label={profile.label || profile.name}
                 >
                   <i className={`icon ${profile.icon}`}></i>
                 </a>
               ))}
 
-              {/* Resume button (same style) */}
-              <a
-                href={name.url}
-                id='button'
-                className='btn'
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Resume"
-              >
-                <i className="lni lni-download"> Resume</i>
-              </a>
-
+              {name.url && (
+                <a
+                  href={name.url}
+                  id='button'
+                  className='btn'
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Resume"
+                >
+                  <i className="lni lni-download"> Resume</i>
+                </a>
+              )}
             </div>
           </div>
 

@@ -1,33 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
-import { name } from '../../../your_info';
 
-
-const Navbar = () => {
-  const { url } = name;
+const Navbar = ({ portfolio }) => {
+  const resumeUrl = portfolio?.name?.url || '';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 992) {
-        setIsMenuOpen(false);
-      }
+      if (window.innerWidth >= 992) setIsMenuOpen(false);
     };
-
     window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg  ${isMenuOpen ? 'navbar-open' : ''}`}>
+      <nav className={`navbar navbar-expand-lg ${isMenuOpen ? 'navbar-open' : ''}`}>
         <div className="container-fluid">
           <button
             className={`navbar-toggler custom-toggler ${isMenuOpen ? 'open' : ''}`}
@@ -42,11 +32,6 @@ const Navbar = () => {
 
           <div className={`collapse navbar-collapse justify-content-center ${isMenuOpen ? 'show slide-in' : ''}`}>
             <ul className="navbar-nav">
-              {/* <li className="nav-item">
-                <a href="#Skills" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
-                  <span className='link-span'>Skills</span>
-                </a>
-              </li> */}
               <li className="nav-item">
                 <a href="#Experience" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
                   <span className='link-span'>Experience</span>
@@ -62,13 +47,6 @@ const Navbar = () => {
                   <span className='link-span'>Contact Me</span>
                 </a>
               </li>
-              {/* <li className="nav-item">
-                <a href={url} className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
-                  <span className='link-span'>
-                    Resume<i className="icon lni lni-download"></i>
-                  </span>
-                </a>
-              </li> */}
             </ul>
           </div>
         </div>

@@ -62,3 +62,28 @@
       font-size: 28px;
     }
   }
+
+.our-achievement .title h3 {
+  color: var(--light-color);
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+.achievement-text-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.achievement-text-item {
+  color: var(--light-color);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 0.5rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+}
