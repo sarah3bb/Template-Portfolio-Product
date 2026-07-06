@@ -9,7 +9,10 @@ export function usePortfolio(user) {
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   const load = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {

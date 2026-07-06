@@ -6,12 +6,11 @@ import SetupWarning from '../components/SetupWarning';
 import './LoginPage.css';
 
 export default function LoginPage() {
-  if (!isSupabaseConfigured) return <SetupWarning />;
-
+  // Hooks must come before any conditional returns (React Rules of Hooks)
   const { user, signIn, signUp } = useAuth();
   const navigate = useNavigate();
 
-  const [mode, setMode] = useState('login'); // 'login' | 'signup'
+  const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -23,6 +22,9 @@ export default function LoginPage() {
     if (user) navigate('/dashboard', { replace: true });
   }, [user, navigate]);
 
+  // Safe to conditionally render after all hooks
+  if (!isSupabaseConfigured) return <SetupWarning />;
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
@@ -31,9 +33,14 @@ export default function LoginPage() {
 
     try {
       if (mode === 'signup') {
-        await signUp(email, password, fullName);
-        setInfo('Account created! Check your email to confirm, then log in.');
-        setMode('login');
+        const data = await signUp(email, password, fullName);
+        // If Supabase auto-confirmed (email confirmation disabled), session is set immediately
+        if (data?.session) {
+          navigate('/dashboard', { replace: true });
+        } else {
+          setInfo('Account created! Check your email for a confirmation link, then log in here.');
+          setMode('login');
+        }
       } else {
         await signIn(email, password);
         navigate('/dashboard', { replace: true });
@@ -54,7 +61,7 @@ export default function LoginPage() {
         <p className="login-subtitle">
           {mode === 'login'
             ? 'Log in to edit your portfolio'
-            : 'Build your professional portfolio in minutes'}
+            : 'Build your professional portfolio in minutes — free'}
         </p>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -98,7 +105,7 @@ export default function LoginPage() {
           {info && <p className="login-info">{info}</p>}
 
           <button type="submit" className="login-submit" disabled={loading}>
-            {loading ? 'Please wait…' : mode === 'login' ? 'Log In' : 'Create Account'}
+            {loading ? 'Please wait…' : mode === 'login' ? 'Log In' : 'Create Free Account'}
           </button>
         </form>
 

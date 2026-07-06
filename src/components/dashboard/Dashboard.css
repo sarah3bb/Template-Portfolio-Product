@@ -69,6 +69,19 @@
 .btn-save:hover:not(:disabled) { background: #4f46e5; }
 .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
+.btn-copy-link {
+  background: transparent;
+  color: #818cf8;
+  border: 1px solid #3b4f6b;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.btn-copy-link:hover { border-color: #6366f1; background: #1a1f35; }
+
 .btn-logout {
   background: transparent;
   color: #94a3b8;

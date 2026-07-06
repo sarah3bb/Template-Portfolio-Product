@@ -14,8 +14,7 @@ import ScrollToTopButton from '../components/4. Utility Components/ScrollToTopBu
 import Spinner from '../components/4. Utility Components/Spinner/Spinner';
 
 export default function PortfolioPage() {
-  if (!isSupabaseConfigured) return <SetupWarning />;
-
+  // Hooks must come before any conditional returns (React Rules of Hooks)
   const { slug } = useParams();
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState(null);
@@ -23,6 +22,10 @@ export default function PortfolioPage() {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
     async function fetchPortfolio() {
       try {
         const data = await getPortfolioBySlug(slug);
@@ -37,13 +40,16 @@ export default function PortfolioPage() {
     fetchPortfolio();
   }, [slug]);
 
+  // Safe to conditionally render after all hooks
+  if (!isSupabaseConfigured) return <SetupWarning />;
+
   if (loading) return <Spinner />;
 
   if (notFound) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: '1rem', background: '#0f172a', color: '#f1f5f9' }}>
         <h2>Portfolio not found</h2>
-        <p style={{ color: '#94a3b8' }}>The portfolio at <strong>/p/{slug}</strong> doesn't exist or isn't published.</p>
+        <p style={{ color: '#94a3b8' }}>The portfolio at <strong>/p/{slug}</strong> doesn't exist or isn't published yet.</p>
         <button onClick={() => navigate('/')} style={{ background: '#6366f1', color: '#fff', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '8px', cursor: 'pointer' }}>
           Go Home
         </button>
