@@ -51,6 +51,7 @@ export function mapPortfolioData(portfolio) {
     // Raw fields (used by dashboard, slug page title, etc.)
     slug: portfolio.slug || '',
     published: portfolio.published ?? true,
+    // theme holds all customization settings; safe empty object if not yet set
     theme: portfolio.theme || {},
   };
 }

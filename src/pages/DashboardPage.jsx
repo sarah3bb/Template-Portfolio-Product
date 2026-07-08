@@ -14,6 +14,7 @@ import TypewriterSection from '../components/dashboard/TypewriterSection';
 import AchievementsSection from '../components/dashboard/AchievementsSection';
 import HobbiesSection from '../components/dashboard/HobbiesSection';
 import ContactFormSection from '../components/dashboard/ContactFormSection';
+import CustomizeSection from '../components/dashboard/CustomizeSection';
 
 import QRCodeModal from '../components/dashboard/QRCodeModal';
 import '../components/dashboard/Dashboard.css';
@@ -139,6 +140,10 @@ export default function DashboardPage() {
         <AchievementsSection form={form} onChange={handleChange} />
         <HobbiesSection userId={user.id} form={form} onChange={handleChange} />
         <ContactFormSection form={form} onChange={handleChange} />
+        <CustomizeSection
+          theme={form.theme || {}}
+          onChange={value => handleChange('theme', value)}
+        />
       </div>
     </div>
   );

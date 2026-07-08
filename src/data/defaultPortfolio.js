@@ -67,10 +67,11 @@ const defaultPortfolio = {
   emailjs_public_key: '',
 
   theme: {
-    primaryColor: '#4f46e5',
-    secondaryColor: '#7c3aed',
-    backgroundColor: '#ffffff',
-    textColor: '#1f2937',
+    accentColor: '#c79b3b',  // matches the existing gold design
+    fontFamily: 'Amethysta',
+    imageShape: 'circle',
+    buttonStyle: 'rounded',
+    cardStyle: 'bordered',
   },
 };
 

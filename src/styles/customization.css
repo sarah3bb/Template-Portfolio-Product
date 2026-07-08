@@ -1,0 +1,79 @@
+/*
+  Portfolio customization overrides.
+  All rules are scoped to .portfolio-wrapper so they never leak into
+  the dashboard or other pages.
+*/
+
+/* ── Font ─────────────────────────────────────────────────────── */
+/* Overrides the hard-coded font-family declarations in main.css   */
+.portfolio-wrapper h1,
+.portfolio-wrapper h2,
+.portfolio-wrapper h3,
+.portfolio-wrapper h4,
+.portfolio-wrapper h5,
+.portfolio-wrapper p,
+.portfolio-wrapper span,
+.portfolio-wrapper a,
+.portfolio-wrapper li {
+  font-family: var(--portfolio-font, 'Amethysta'), serif !important;
+}
+
+/* ── Timeline accent colour ────────────────────────────────────── */
+/* These were hardcoded to #c79b3b in InteractiveTimeline.css      */
+.portfolio-wrapper .timeline-line {
+  background: linear-gradient(
+    to bottom,
+    var(--accent-color),
+    transparent
+  ) !important;
+}
+.portfolio-wrapper .timeline-dot {
+  background: var(--accent-color) !important;
+}
+.portfolio-wrapper .timeline-card:hover {
+  border-color: var(--accent-color) !important;
+}
+.portfolio-wrapper .timeline-tags span {
+  background: var(--accent-color) !important;
+}
+
+/* ── Profile image shape ───────────────────────────────────────── */
+/* Default (circle) is already set in Hero.css                     */
+.portfolio-wrapper[data-image-shape="rounded"] .hero-image {
+  border-radius: 24px !important;
+}
+.portfolio-wrapper[data-image-shape="square"] .hero-image {
+  border-radius: 0 !important;
+}
+
+/* ── Button style ──────────────────────────────────────────────── */
+.portfolio-wrapper[data-btn-style="pill"] #button,
+.portfolio-wrapper[data-btn-style="pill"] .submit-button {
+  border-radius: 50px !important;
+}
+.portfolio-wrapper[data-btn-style="square"] #button,
+.portfolio-wrapper[data-btn-style="square"] .submit-button {
+  border-radius: 0 !important;
+}
+
+/* ── Card style ────────────────────────────────────────────────── */
+/* Timeline cards */
+.portfolio-wrapper[data-card-style="shadowed"] .timeline-card {
+  border: none !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+}
+.portfolio-wrapper[data-card-style="minimal"] .timeline-card {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Hobby / project cards */
+.portfolio-wrapper[data-card-style="shadowed"] .hobby-card {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18) !important;
+  border: none !important;
+}
+.portfolio-wrapper[data-card-style="minimal"] .hobby-card {
+  box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}

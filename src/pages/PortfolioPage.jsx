@@ -4,6 +4,7 @@ import { getPortfolioBySlug } from '../services/portfolioService';
 import { mapPortfolioData } from '../utils/mapPortfolioData';
 import { isSupabaseConfigured } from '../lib/supabaseClient';
 import SetupWarning from '../components/SetupWarning';
+import { buildPortfolioStyle, buildPortfolioAttrs } from '../utils/applyCustomization';
 
 import Hero from '../components/1. Header Components/Hero/Hero';
 import Achievement from '../components/2. Content Components/Achievement/Achievement';
@@ -58,15 +59,17 @@ export default function PortfolioPage() {
   }
 
   const mapped = mapPortfolioData(portfolio);
+  const wrapperStyle = buildPortfolioStyle(mapped.theme);
+  const wrapperAttrs = buildPortfolioAttrs(mapped.theme);
 
   return (
-    <>
+    <div className="portfolio-wrapper" style={wrapperStyle} {...wrapperAttrs}>
       <Hero portfolio={mapped} />
       <ScrollToTopButton />
       <Achievement portfolio={mapped} />
       <TimelineSection portfolio={mapped} />
       <Projects portfolio={mapped} />
       <AboutMe portfolio={mapped} />
-    </>
+    </div>
   );
 }
