@@ -1,0 +1,246 @@
+.ap-panel {
+  padding: 2rem;
+}
+
+/* ── Two-column layout: controls | preview ── */
+.ap-layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .ap-layout {
+    grid-template-columns: 1fr;
+  }
+  .ap-preview-col { order: -1; }
+}
+
+/* ── Control groups ── */
+.ap-group {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #1e293b;
+}
+.ap-group:last-of-type { border-bottom: none; }
+
+.ap-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Colour swatches ── */
+.ap-color-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.ap-swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.ap-swatch:hover       { transform: scale(1.15); }
+.ap-swatch.active      { border-color: #f1f5f9; transform: scale(1.1); }
+
+.ap-color-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px dashed #334155;
+  border-radius: 6px;
+  transition: border-color 0.15s;
+}
+.ap-color-custom:hover { border-color: #6366f1; color: #a5b4fc; }
+.ap-color-custom input[type="color"] {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+/* ── Font buttons ── */
+.ap-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.ap-font-btn {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.ap-font-btn:hover  { border-color: #6366f1; color: #f1f5f9; }
+.ap-font-btn.active { border-color: #6366f1; background: #1a1f35; color: #a5b4fc; }
+
+/* ── Choice buttons (shape, button, card, spacing, layout, header) ── */
+.ap-choice-btn {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 80px;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.ap-choice-btn:hover  { border-color: #6366f1; color: #f1f5f9; }
+.ap-choice-btn.active { border-color: #6366f1; background: #1a1f35; color: #a5b4fc; }
+
+.ap-choice-name {
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+.ap-choice-desc {
+  font-size: 0.68rem;
+  color: #475569;
+  text-align: center;
+}
+.ap-choice-btn.active .ap-choice-desc { color: #818cf8; }
+
+/* shape icon */
+.ap-shape-icon {
+  width: 24px;
+  height: 24px;
+  background: currentColor;
+  opacity: 0.7;
+  display: block;
+}
+.ap-choice-btn.active .ap-shape-icon { opacity: 1; background: #6366f1; }
+
+/* button preview badge */
+.ap-btn-preview {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid currentColor;
+  font-size: 0.7rem;
+  font-family: inherit;
+  background: rgba(255,255,255,0.05);
+}
+
+/* Reset row */
+.ap-reset-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+/* ── Preview panel ── */
+.ap-preview-col {
+  position: sticky;
+  top: 80px;
+}
+
+.ap-preview-sticky {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ap-preview {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+}
+
+.ap-preview-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #475569;
+  margin-bottom: 1rem;
+  font-family: system-ui, sans-serif !important;
+}
+
+.ap-preview-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ap-preview-avatar {
+  width: 64px;
+  height: 64px;
+  align-self: center;
+}
+
+.ap-preview-text {
+  text-align: center;
+}
+
+.ap-preview-name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ap-preview-job {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 2px;
+  font-family: inherit;
+}
+
+.ap-preview-btn {
+  align-self: center;
+  padding: 0.35rem 1rem;
+  color: #fff;
+  font-size: 0.75rem;
+  cursor: default;
+  font-family: inherit;
+  transition: border-radius 0.2s, background 0.2s;
+}
+
+.ap-preview-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.ap-preview-note {
+  font-size: 0.72rem;
+  color: #475569;
+  text-align: center;
+  line-height: 1.4;
+  font-family: system-ui, sans-serif !important;
+}
