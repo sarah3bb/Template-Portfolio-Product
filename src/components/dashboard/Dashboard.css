@@ -108,9 +108,11 @@
   flex-direction: column;
   padding: 1.25rem 0;
   overflow-y: auto;
-  position: sticky;
+  position: fixed;
   top: 56px;
+  left: 0;
   height: calc(100vh - 56px);
+  z-index: 100;
 }
 
 .dash-nav-section {
@@ -181,8 +183,8 @@
 /* ── Main content ── */
 .dash-main {
   flex: 1;
-  overflow-y: auto;
   min-width: 0;
+  margin-left: 220px;
 }
 
 .dash-panel-header {
@@ -514,7 +516,6 @@
   .dash-hamburger { display: flex; align-items: center; justify-content: center; }
 
   .dash-sidebar {
-    position: fixed;
     top: 56px;
     left: 0;
     height: calc(100vh - 56px);
@@ -528,6 +529,10 @@
   }
   .dash-sidebar-overlay {
     display: block;
+  }
+
+  .dash-main {
+    margin-left: 0;
   }
 
   .dash-content {
