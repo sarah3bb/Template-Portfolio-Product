@@ -1,0 +1,127 @@
+.loc-select {
+  position: relative;
+}
+
+/* Input wrapper — provides the focus ring */
+.loc-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #0d1424;
+  border: 1px solid #1e293b;
+  border-radius: 9px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  overflow: hidden;
+}
+
+.loc-input-wrap.focused {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.loc-input-wrap.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.loc-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0.75rem 0.5rem 0.75rem 1rem;
+  color: #f1f5f9;
+  font-size: 0.925rem;
+  font-family: inherit;
+  min-width: 0;
+}
+.loc-input::placeholder { color: #334155; }
+.loc-input:disabled { cursor: not-allowed; }
+
+/* Chevron icon */
+.loc-chevron {
+  flex-shrink: 0;
+  padding: 0 0.875rem;
+  color: #334155;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+  user-select: none;
+  pointer-events: none;
+}
+.loc-chevron.open { transform: rotate(180deg); color: #6366f1; }
+
+/* Loading spinner */
+.loc-spinner {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #1e293b;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: loc-spin 0.7s linear infinite;
+  margin-right: 0.875rem;
+}
+@keyframes loc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Dropdown list */
+.loc-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1a2235;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 500;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+
+.loc-dropdown::-webkit-scrollbar { width: 5px; }
+.loc-dropdown::-webkit-scrollbar-track { background: transparent; }
+.loc-dropdown::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+/* Option buttons */
+.loc-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.6rem 0.875rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.loc-option:hover { background: #1e3258; color: #f1f5f9; }
+.loc-option.selected { color: #818cf8; font-weight: 600; }
+.loc-option.selected:hover { background: #1e3258; }
+
+.loc-tick {
+  font-size: 0.75rem;
+  color: #6366f1;
+  flex-shrink: 0;
+}
+
+.loc-no-results {
+  padding: 0.75rem 0.875rem;
+  color: #475569;
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+/* Error message */
+.loc-error {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: #f87171;
+  line-height: 1.4;
+}
