@@ -50,7 +50,7 @@ export default function CustomizeSection({ theme, onChange }) {
   }
 
   return (
-    <SectionWrapper title="Customise Your Portfolio" icon="🎨">
+    <SectionWrapper title="Customise Your Portfolio" icon="">
       <p className="field-help" style={{ marginBottom: '1.5rem' }}>
         Choose colours, fonts, and styles. Changes are applied when you click <strong>Save Changes</strong> above.
       </p>

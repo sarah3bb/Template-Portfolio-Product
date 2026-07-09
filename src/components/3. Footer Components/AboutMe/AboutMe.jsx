@@ -25,22 +25,22 @@ const AboutMe = ({ portfolio }) => {
               {power_slogan && <h2>{power_slogan}</h2>}
 
               <div className="contact-card">
-                <h3>📞 Get in Touch</h3>
+                <h3>Get in Touch</h3>
                 {email && (
                   <div className="contact-item">
-                    <span>📧</span>
+                    <span>Email</span>
                     <span>{email}</span>
                   </div>
                 )}
                 {phone && (
                   <div className="contact-item">
-                    <span>📱</span>
+                    <span>Phone</span>
                     <span>{phone}</span>
                   </div>
                 )}
                 {city && (
                   <div className="contact-item">
-                    <span>📍</span>
+                    <span>Location</span>
                     <span>{city}</span>
                   </div>
                 )}

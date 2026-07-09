@@ -37,8 +37,8 @@ const Hero = ({ portfolio }) => {
             <div className='name-container wow fadeInLeft' data-wow-delay='.4s'>
               <h2>{firstname} {lastname}</h2>
               <div className='contact-info'>
-                {portfolio.email && <p>📧 {portfolio.email}</p>}
-                {portfolio.phone && <p>📞 {portfolio.phone}</p>}
+                {portfolio.email && <p>{portfolio.email}</p>}
+                {portfolio.phone && <p>{portfolio.phone}</p>}
               </div>
             </div>
 

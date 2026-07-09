@@ -49,7 +49,7 @@ export default function ImageUpload({ userId, folder, label, currentUrl, onUploa
         <div className="image-preview">
           {isResume ? (
             <a href={currentUrl} target="_blank" rel="noreferrer" className="resume-link">
-              📄 View current resume (PDF)
+              View current resume (PDF)
             </a>
           ) : (
             <img src={currentUrl} alt="preview" />

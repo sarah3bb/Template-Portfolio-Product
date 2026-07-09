@@ -3,7 +3,7 @@ import SectionWrapper from './SectionWrapper';
 
 export default function AboutSection({ form, onChange }) {
   return (
-    <SectionWrapper title="About Me" icon="📝">
+    <SectionWrapper title="About Me" icon="">
       <div className="form-group">
         <label>About Me Text</label>
         <p className="field-help">

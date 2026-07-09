@@ -3,7 +3,7 @@ import SectionWrapper from './SectionWrapper';
 
 export default function ContactFormSection({ form, onChange }) {
   return (
-    <SectionWrapper title="Contact Form (EmailJS)" icon="✉️">
+    <SectionWrapper title="Contact Form (EmailJS)" icon="">
       <div className="emailjs-help">
         <strong>What is this?</strong> EmailJS lets visitors send you messages from your portfolio — without you needing a server. It's free for up to 200 emails/month.
         <br /><br />
@@ -15,7 +15,7 @@ export default function ContactFormSection({ form, onChange }) {
           <li>Go to Account → API Keys → copy your <strong>Public Key</strong>.</li>
           <li>Paste all three below and save.</li>
         </ol>
-        <p style={{ color: '#86efac' }}>💡 If you leave these blank, the contact form will be hidden and visitors can still email you directly.</p>
+        <p style={{ color: '#86efac' }}>If you leave these blank, the contact form will be hidden and visitors can still email you directly.</p>
       </div>
 
       <div className="form-group">

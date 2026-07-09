@@ -16,7 +16,7 @@ export default function HobbiesSection({ userId, form, onChange }) {
   function remove(i) { onChange('hobbies', items.filter((_, idx) => idx !== i)); }
 
   return (
-    <SectionWrapper title="Hobbies & Interests" icon="🎯">
+    <SectionWrapper title="Hobbies & Interests" icon="">
       <p className="field-help">
         These appear in the "Why Work With Me" section as a photo slideshow. Add photos of things you enjoy outside of work.
       </p>

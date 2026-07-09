@@ -32,7 +32,7 @@ const Achievement = ({ portfolio }) => {
             <div className="col-lg-10 offset-lg-1 col-md-12 col-12">
               <div className="achievement-text-list">
                 {textItems.map((item, i) => (
-                  <p key={i} className="achievement-text-item">🏆 {item.word}</p>
+                  <p key={i} className="achievement-text-item">{item.word}</p>
                 ))}
               </div>
             </div>

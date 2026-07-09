@@ -27,7 +27,7 @@ export default function ImagesSection({ userId, form, onChange }) {
   }
 
   return (
-    <SectionWrapper title="Photos & Files" icon="🖼️">
+    <SectionWrapper title="Photos & Files" icon="">
       <ImageUpload
         userId={userId}
         folder="profile-images"

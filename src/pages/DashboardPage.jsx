@@ -25,10 +25,10 @@ import '../components/dashboard/Dashboard.css';
 
 /* ── Sidebar nav items ─────────────────────────────────────── */
 const NAV = [
-  { id: 'content',    icon: '✏️',  label: 'Portfolio Content' },
-  { id: 'appearance', icon: '🎨',  label: 'Appearance'        },
-  { id: 'share',      icon: '🔗',  label: 'Share & Publish'   },
-  { id: 'account',    icon: '👤',  label: 'Account'           },
+  { id: 'content',    label: 'Portfolio Content' },
+  { id: 'appearance', label: 'Appearance'        },
+  { id: 'share',      label: 'Share & Publish'   },
+  { id: 'account',    label: 'Account'           },
 ];
 
 const PANEL_META = {
@@ -151,8 +151,7 @@ export default function DashboardPage() {
                 className={`dash-nav-btn ${activeTab === item.id ? 'active' : ''}`}
                 onClick={() => switchTab(item.id)}
               >
-                <span className="dash-nav-icon">{item.icon}</span>
-                {item.label}
+                  {item.label}
               </button>
             ))}
           </div>
@@ -165,7 +164,7 @@ export default function DashboardPage() {
               className="dash-portfolio-link"
               title="Open your portfolio"
             >
-              🔗 {publicUrl.replace('https://', '')}
+              {publicUrl.replace('https://', '')}
             </a>
           </div>
         </nav>

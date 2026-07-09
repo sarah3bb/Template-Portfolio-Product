@@ -165,7 +165,7 @@ const projectData = [
 
 // You can tell something about yourself in the infotext.
 const aboutMeText = {
-  infotext: `💼Professionally, I have been enjoying working in Sales 
+  infotext: `Professionally, I have been enjoying working in Sales
 
 \nHow do you turn insight into influence?
 
@@ -186,7 +186,7 @@ Coming up with Ideas and learning how to influence. The moment when someone says
 
 \nRight now? I am reflecting deeply and figuring out how I can learn from the best.
 
-\nIf you’re in corporate, building a startup, or somewhere in between let’s connect 🤝
+\nIf you’re in corporate, building a startup, or somewhere in between let’s connect
     `,
   // power_slogan: `Lorem ipsum dolor sit amet`,
 };

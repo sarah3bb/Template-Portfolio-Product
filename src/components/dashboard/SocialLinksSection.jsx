@@ -26,7 +26,7 @@ export default function SocialLinksSection({ form, onChange }) {
   function remove(i) { onChange('social_links', items.filter((_, idx) => idx !== i)); }
 
   return (
-    <SectionWrapper title="Social Links" icon="🔗">
+    <SectionWrapper title="Social Links" icon="">
       <p className="field-help">Add your social media profiles and website. These appear as icon buttons on your portfolio.</p>
 
       {items.map((item, i) => (

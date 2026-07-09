@@ -15,7 +15,7 @@ export default function AchievementsSection({ form, onChange }) {
   function remove(i) { onChange('achievements', items.filter((_, idx) => idx !== i)); }
 
   return (
-    <SectionWrapper title="Achievements" icon="🏆">
+    <SectionWrapper title="Achievements" icon="">
       <p className="field-help">
         Two types: <strong>text-only</strong> (leave Number blank, e.g. "Grade: Distinction") or <strong>counter</strong> (fill in a Number and Unit to show an animated count-up, e.g. "7500 finished projects").
       </p>

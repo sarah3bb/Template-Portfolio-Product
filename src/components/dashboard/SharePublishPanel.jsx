@@ -67,7 +67,7 @@ export default function SharePublishPanel({ form, onChange, publicUrl }) {
           </a>
         </div>
         <button className="sp-btn sp-btn-primary sp-copy-btn" onClick={handleCopy}>
-          {copied ? '✓ Copied to clipboard!' : '📋 Copy Link'}
+          {copied ? '✓ Copied to clipboard!' : 'Copy Link'}
         </button>
       </div>
 
@@ -96,7 +96,7 @@ export default function SharePublishPanel({ form, onChange, publicUrl }) {
           Download a QR code to print on your resume, business card, or email signature. Scans directly to your portfolio.
         </p>
         <button className="sp-btn sp-btn-secondary" onClick={() => setShowQR(true)}>
-          📱 Download QR Code
+          Download QR Code
         </button>
       </div>
     </div>

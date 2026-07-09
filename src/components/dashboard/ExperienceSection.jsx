@@ -132,7 +132,7 @@ export default function ExperienceSection({ form, onChange }) {
   }
 
   return (
-    <SectionWrapper title="Experience / Work History" icon="💼">
+    <SectionWrapper title="Experience / Work History" icon="">
       <p className="field-help">These entries appear on the timeline on your portfolio. Most recent first.</p>
 
       {items.map((item, i) => (

@@ -21,7 +21,7 @@ export default function SetupWarning() {
           marginBottom: '2rem',
         }}>
           <h2 style={{ color: '#fbbf24', fontSize: '1.1rem', marginBottom: '0.5rem' }}>
-            ⚠️ Supabase is not configured yet
+            Supabase is not configured yet
           </h2>
           <p style={{ color: '#fcd34d', fontSize: '0.9rem', margin: 0 }}>
             The app is running but cannot connect to a database. Follow the steps below to finish setup.
@@ -80,7 +80,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here`}
           fontSize: '0.8rem',
           color: '#64748b',
         }}>
-          💡 This screen will disappear automatically once your .env file is set up correctly.
+          This screen will disappear automatically once your .env file is set up correctly.
         </div>
       </div>
     </div>

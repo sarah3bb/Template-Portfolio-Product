@@ -13,7 +13,7 @@ export default function TypewriterSection({ form, onChange }) {
   function remove(i) { onChange('typewriter_text', items.filter((_, idx) => idx !== i)); }
 
   return (
-    <SectionWrapper title="Typewriter Text" icon="⌨️">
+    <SectionWrapper title="Typewriter Text" icon="">
       <p className="field-help">
         These lines cycle through one at a time on your portfolio. Great for your job title, university, and city.
       </p>

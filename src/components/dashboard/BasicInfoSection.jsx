@@ -3,7 +3,7 @@ import SectionWrapper from './SectionWrapper';
 
 export default function BasicInfoSection({ form, onChange }) {
   return (
-    <SectionWrapper title="Basic Info" icon="👤" defaultOpen={true}>
+    <SectionWrapper title="Basic Info" icon="" defaultOpen={true}>
       <div className="form-row">
         <div className="form-group">
           <label>First Name</label>
