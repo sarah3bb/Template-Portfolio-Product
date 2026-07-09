@@ -11,8 +11,7 @@ export default function ImagesSection({ userId, form, onChange }) {
     if (err) { alert(err); return; }
     try {
       const url = await uploadFile(userId, 'company-logos', file);
-      const logos = [...(form.company_logos || []), url];
-      onChange('company_logos', logos);
+      onChange('company_logos', [...(form.company_logos || []), url]);
     } catch {
       alert('Logo upload failed. Please try again.');
     }
@@ -28,43 +27,59 @@ export default function ImagesSection({ userId, form, onChange }) {
 
   return (
     <SectionWrapper title="Photos & Files" icon="">
-      <ImageUpload
-        userId={userId}
-        folder="profile-images"
-        label="Profile Photo"
-        currentUrl={form.profile_image_url}
-        onUploaded={url => onChange('profile_image_url', url)}
-        helpText="Your headshot or professional photo. Square images work best."
-      />
 
-      <ImageUpload
-        userId={userId}
-        folder="background-images"
-        label="Background Image"
-        currentUrl={form.background_image_url}
-        onUploaded={url => onChange('background_image_url', url)}
-        helpText="The large image behind your name at the top of your portfolio. Leave blank for a solid colour."
-      />
+      {/* Profile photo + Background image side by side */}
+      <div className="upload-grid">
+        <ImageUpload
+          userId={userId}
+          folder="profile-images"
+          label="Profile Photo"
+          currentUrl={form.profile_image_url}
+          onUploaded={url => onChange('profile_image_url', url)}
+          helpText="Your headshot. Square images work best."
+        />
+        <ImageUpload
+          userId={userId}
+          folder="background-images"
+          label="Background Image"
+          currentUrl={form.background_image_url}
+          onUploaded={url => onChange('background_image_url', url)}
+          helpText="The large image at the top of your portfolio. Leave blank for a solid colour."
+        />
+      </div>
 
-      <ImageUpload
-        userId={userId}
-        folder="resumes"
-        label="Resume / CV (PDF)"
-        currentUrl={form.resume_url}
-        onUploaded={url => onChange('resume_url', url)}
-        isResume={true}
-        helpText="Upload a PDF. Visitors can download it from your portfolio."
-      />
+      {/* Resume — full width */}
+      <div className="upload-grid">
+        <div className="upload-full">
+          <ImageUpload
+            userId={userId}
+            folder="resumes"
+            label="Resume / CV (PDF)"
+            currentUrl={form.resume_url}
+            onUploaded={url => onChange('resume_url', url)}
+            isResume={true}
+            helpText="Upload a PDF. Visitors can download it directly from your portfolio."
+          />
+        </div>
+      </div>
 
+      {/* Company logos */}
       <div className="form-group">
         <label>Company / Organisation Logos</label>
-        <p className="field-help">Upload logos of companies you've worked with. They appear below your company name.</p>
-
+        <p className="field-help">
+          Upload logos of companies you've worked with. They appear below your company name.
+        </p>
         <div className="logo-grid">
           {(form.company_logos || []).map((url, i) => (
             <div key={i} className="logo-item">
               <img src={url} alt={`logo ${i + 1}`} />
-              <button type="button" className="btn-remove-logo" onClick={() => handleLogoRemove(i)}>✕</button>
+              <button
+                type="button"
+                className="btn-remove-logo"
+                onClick={() => handleLogoRemove(i)}
+              >
+                ✕
+              </button>
             </div>
           ))}
           <label className="logo-add-btn">
@@ -73,6 +88,7 @@ export default function ImagesSection({ userId, form, onChange }) {
           </label>
         </div>
       </div>
+
     </SectionWrapper>
   );
 }
