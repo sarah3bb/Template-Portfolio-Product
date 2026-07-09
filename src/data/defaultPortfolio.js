@@ -13,7 +13,7 @@ const defaultPortfolio = {
   email: 'you@example.com',
   phone: '+1 234 567 890',
   city: 'Your City',
-  location: 'Your City, Country',
+  location: 'Your Country',
 
   profile_image_url: '',
   background_image_url: '',
