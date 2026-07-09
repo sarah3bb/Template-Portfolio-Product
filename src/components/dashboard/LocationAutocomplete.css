@@ -1,0 +1,123 @@
+.loc-ac {
+  position: relative;
+}
+
+/* Input wrapper */
+.loc-ac-wrap {
+  display: flex;
+  align-items: center;
+  background: #0d1424;
+  border: 1px solid #1e293b;
+  border-radius: 9px;
+  overflow: visible;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.loc-ac-wrap.focused,
+.loc-ac-wrap:focus-within {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.loc-ac-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0.75rem 0.5rem 0.75rem 1rem;
+  color: #f1f5f9;
+  font-size: 0.925rem;
+  font-family: inherit;
+  min-width: 0;
+}
+.loc-ac-input::placeholder { color: #334155; }
+
+/* Spinner */
+.loc-ac-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #1e293b;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: lac-spin 0.65s linear infinite;
+  flex-shrink: 0;
+  margin-right: 0.875rem;
+}
+@keyframes lac-spin { to { transform: rotate(360deg); } }
+
+/* Dropdown */
+.loc-ac-dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  background: #1a2235;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  z-index: 600;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+/* Options */
+.loc-ac-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #1e293b;
+  padding: 0.7rem 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s;
+  font-family: inherit;
+}
+.loc-ac-option:last-child { border-bottom: none; }
+.loc-ac-option:hover { background: #1e3258; }
+
+.loc-ac-main {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.3;
+}
+
+.loc-ac-secondary {
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.3;
+}
+
+/* Fallback plain input */
+.loc-ac-fallback-input {
+  width: 100%;
+  background: #0d1424;
+  border: 1px solid #1e293b;
+  border-radius: 9px;
+  padding: 0.75rem 1rem;
+  color: #f1f5f9;
+  font-size: 0.925rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+.loc-ac-fallback-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+.loc-ac-fallback-input::placeholder { color: #334155; }
+
+.loc-ac-key-note {
+  margin-top: 0.35rem;
+  color: #475569 !important;
+}
+.loc-ac-key-note code {
+  background: #111827;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #818cf8;
+}

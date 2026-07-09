@@ -1,72 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { getNames } from 'country-list';
+import React from 'react';
 import SectionWrapper from './SectionWrapper';
-import LocationSelect from './LocationSelect';
-
-// All 249 country names, cleaned (strip " (the)" suffix) and sorted A-Z
-const ALL_COUNTRIES = getNames()
-  .map(n => n.replace(/\s*\(the\)\s*$/i, '').trim())
-  .sort((a, b) => a.localeCompare(b));
-
-// Module-level cache — persists for the browser session, avoids repeat API calls
-const cityCache = new Map();
-
-async function fetchCitiesForCountry(country) {
-  if (cityCache.has(country)) return cityCache.get(country);
-
-  const res = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ country }),
-  });
-
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const json = await res.json();
-  if (json.error || !Array.isArray(json.data)) throw new Error(json.msg || 'No city data');
-
-  const sorted = [...json.data].sort((a, b) => a.localeCompare(b));
-  cityCache.set(country, sorted);
-  return sorted;
-}
+import LocationAutocomplete from './LocationAutocomplete';
 
 export default function BasicInfoSection({ form, onChange }) {
-  const [cities, setCities] = useState([]);
-  const [citiesLoading, setCitiesLoading] = useState(false);
-  const [citiesError, setCitiesError] = useState('');
-
-  const selectedCountry = form.location || '';
-
-  // Load cities whenever the selected country changes
-  useEffect(() => {
-    if (!selectedCountry) {
-      setCities([]);
-      setCitiesError('');
-      return;
-    }
-
-    let cancelled = false;
-    setCitiesLoading(true);
-    setCitiesError('');
-
-    fetchCitiesForCountry(selectedCountry)
-      .then(data => { if (!cancelled) setCities(data); })
-      .catch(() => {
-        if (!cancelled) {
-          setCities([]);
-          setCitiesError('Could not load cities. You can still type your city manually.');
-        }
-      })
-      .finally(() => { if (!cancelled) setCitiesLoading(false); });
-
-    return () => { cancelled = true; };
-  }, [selectedCountry]);
-
-  function handleCountryChange(country) {
-    onChange('location', country);
-    // Clear city when country changes so stale values don't carry over
-    if (form.city) onChange('city', '');
-    setCities([]);
-    setCitiesError('');
+  // LocationAutocomplete calls this with { city, location, country, region }
+  function handleLocationChange({ city, location }) {
+    onChange('city', city);
+    onChange('location', location);
   }
 
   return (
@@ -133,32 +73,17 @@ export default function BasicInfoSection({ form, onChange }) {
         </div>
       </div>
 
-      {/* Country — comes first; loads city list */}
-      <div className="form-row">
-        <div className="form-group">
-          <label>Country</label>
-          <LocationSelect
-            value={selectedCountry}
-            onChange={handleCountryChange}
-            options={ALL_COUNTRIES}
-            placeholder="Select your country"
-          />
-        </div>
-
-        {/* City — disabled until a country is chosen */}
-        <div className="form-group">
-          <label>City</label>
-          <LocationSelect
-            value={form.city || ''}
-            onChange={v => onChange('city', v)}
-            options={cities}
-            placeholder={selectedCountry ? 'Select or type your city' : 'Choose a country first'}
-            disabled={!selectedCountry}
-            loading={citiesLoading}
-            errorText={citiesError}
-            allowCustom={true}
-          />
-        </div>
+      {/* Location — single Google Places field */}
+      <div className="form-group">
+        <label>Location</label>
+        <LocationAutocomplete
+          city={form.city || ''}
+          location={form.location || ''}
+          onChange={handleLocationChange}
+        />
+        <p className="field-help">
+          Start typing your city and select from the suggestions. e.g. "Sydney, Australia"
+        </p>
       </div>
 
       {/* University */}
@@ -178,7 +103,9 @@ export default function BasicInfoSection({ form, onChange }) {
           <span className="slug-prefix">/p/</span>
           <input
             value={form.slug || ''}
-            onChange={e => onChange('slug', e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
+            onChange={e =>
+              onChange('slug', e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))
+            }
             placeholder="jane-smith"
           />
         </div>
