@@ -5,6 +5,20 @@
     <link rel="icon" type="image/png" href="/icons8-portfolio-16-2.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio</title>
+    <!--
+      Anti-flash-of-wrong-theme script.
+      Runs synchronously before React mounts so the correct data-theme
+      attribute is set on <html> before any CSS is painted.
+    -->
+    <script>
+      (function () {
+        var pref = localStorage.getItem('app-theme-pref') || 'system';
+        var theme = pref === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : pref;
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,27 +1,22 @@
-.ap-panel {
-  padding: 2rem;
-}
+.ap-panel { padding: 2rem; }
 
-/* ── Two-column layout: controls | preview ── */
+/* Two-column layout */
 .ap-layout {
   display: grid;
   grid-template-columns: 1fr 260px;
   gap: 2rem;
   align-items: start;
 }
-
 @media (max-width: 900px) {
-  .ap-layout {
-    grid-template-columns: 1fr;
-  }
+  .ap-layout { grid-template-columns: 1fr; }
   .ap-preview-col { order: -1; }
 }
 
-/* ── Control groups ── */
+/* Control groups */
 .ap-group {
   margin-bottom: 1.75rem;
   padding-bottom: 1.75rem;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid var(--border);
 }
 .ap-group:last-of-type { border-bottom: none; }
 
@@ -29,13 +24,13 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #cbd5e1;
+  color: var(--text-2);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 0.4rem;
 }
 
-/* ── Colour swatches ── */
+/* Colour swatches */
 .ap-color-row {
   display: flex;
   flex-wrap: wrap;
@@ -59,22 +54,22 @@
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   transition: transform 0.15s, border-color 0.15s;
 }
-.ap-swatch:hover       { transform: scale(1.15); }
-.ap-swatch.active      { border-color: #f1f5f9; transform: scale(1.1); }
+.ap-swatch:hover  { transform: scale(1.15); }
+.ap-swatch.active { border-color: var(--text-1); transform: scale(1.1); }
 
 .ap-color-custom {
   display: flex;
   align-items: center;
   gap: 0.3rem;
   cursor: pointer;
-  color: #64748b;
+  color: var(--text-3);
   font-size: 0.75rem;
   padding: 0.25rem 0.6rem;
-  border: 1px dashed #334155;
+  border: 1px dashed var(--border-strong);
   border-radius: 6px;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 }
-.ap-color-custom:hover { border-color: #6366f1; color: #a5b4fc; }
+.ap-color-custom:hover { border-color: var(--accent); color: var(--accent-light); }
 .ap-color-custom input[type="color"] {
   width: 22px;
   height: 22px;
@@ -85,32 +80,27 @@
   background: none;
 }
 
-/* ── Font buttons ── */
-.ap-toggle-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.4rem;
-}
+/* Font buttons */
+.ap-toggle-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem; }
 
 .ap-font-btn {
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: #cbd5e1;
+  background: var(--bg-base);
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
   padding: 0.5rem 0.9rem;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
-.ap-font-btn:hover  { border-color: #6366f1; color: #f1f5f9; }
-.ap-font-btn.active { border-color: #6366f1; background: #1a1f35; color: #a5b4fc; }
+.ap-font-btn:hover  { border-color: var(--accent); color: var(--text-1); }
+.ap-font-btn.active { border-color: var(--accent); background: var(--accent-muted); color: var(--accent-light); }
 
-/* ── Choice buttons (shape, button, card, spacing, layout, header) ── */
+/* Choice buttons */
 .ap-choice-btn {
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: #94a3b8;
+  background: var(--bg-base);
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   font-size: 0.8rem;
@@ -122,21 +112,13 @@
   min-width: 80px;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
-.ap-choice-btn:hover  { border-color: #6366f1; color: #f1f5f9; }
-.ap-choice-btn.active { border-color: #6366f1; background: #1a1f35; color: #a5b4fc; }
+.ap-choice-btn:hover  { border-color: var(--accent); color: var(--text-1); }
+.ap-choice-btn.active { border-color: var(--accent); background: var(--accent-muted); color: var(--accent-light); }
 
-.ap-choice-name {
-  font-weight: 600;
-  font-size: 0.82rem;
-}
-.ap-choice-desc {
-  font-size: 0.68rem;
-  color: #475569;
-  text-align: center;
-}
-.ap-choice-btn.active .ap-choice-desc { color: #818cf8; }
+.ap-choice-name { font-weight: 600; font-size: 0.82rem; }
+.ap-choice-desc { font-size: 0.68rem; color: var(--text-4); text-align: center; }
+.ap-choice-btn.active .ap-choice-desc { color: var(--accent-light); }
 
-/* shape icon */
 .ap-shape-icon {
   width: 24px;
   height: 24px;
@@ -144,81 +126,46 @@
   opacity: 0.7;
   display: block;
 }
-.ap-choice-btn.active .ap-shape-icon { opacity: 1; background: #6366f1; }
+.ap-choice-btn.active .ap-shape-icon { opacity: 1; background: var(--accent); }
 
-/* button preview badge */
 .ap-btn-preview {
   display: inline-block;
   padding: 0.1rem 0.5rem;
   border: 1px solid currentColor;
   font-size: 0.7rem;
   font-family: inherit;
-  background: rgba(255,255,255,0.05);
+  background: var(--bg-raised);
 }
 
-/* Reset row */
-.ap-reset-row {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 0.5rem;
-}
+.ap-reset-row { display: flex; justify-content: flex-end; padding-top: 0.5rem; }
 
-/* ── Preview panel ── */
-.ap-preview-col {
-  position: sticky;
-  top: 80px;
-}
-
-.ap-preview-sticky {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+/* Preview panel */
+.ap-preview-col { position: sticky; top: 80px; }
+.ap-preview-sticky { display: flex; flex-direction: column; gap: 0.75rem; }
 
 .ap-preview {
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem;
   position: relative;
+  box-shadow: var(--shadow-card);
 }
 
 .ap-preview-label {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #475569;
+  color: var(--text-4);
   margin-bottom: 1rem;
   font-family: system-ui, sans-serif !important;
 }
 
-.ap-preview-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.ap-preview-avatar {
-  width: 64px;
-  height: 64px;
-  align-self: center;
-}
-
-.ap-preview-text {
-  text-align: center;
-}
-
-.ap-preview-name {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.ap-preview-job {
-  font-size: 0.75rem;
-  font-weight: 500;
-  margin-top: 2px;
-  font-family: inherit;
-}
+.ap-preview-body { display: flex; flex-direction: column; gap: 0.75rem; }
+.ap-preview-avatar { width: 64px; height: 64px; align-self: center; }
+.ap-preview-text { text-align: center; }
+.ap-preview-name { font-size: 1rem; font-weight: 700; }
+.ap-preview-job { font-size: 0.75rem; font-weight: 500; margin-top: 2px; font-family: inherit; }
 
 .ap-preview-btn {
   align-self: center;
@@ -239,7 +186,7 @@
 
 .ap-preview-note {
   font-size: 0.72rem;
-  color: #475569;
+  color: var(--text-4);
   text-align: center;
   line-height: 1.4;
   font-family: system-ui, sans-serif !important;

@@ -7,57 +7,52 @@
 }
 
 .acc-card {
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
   position: relative;
+  box-shadow: var(--shadow-card);
 }
 
-.acc-card-muted {
-  opacity: 0.65;
-}
+.acc-card-muted { opacity: 0.65; }
 
 .acc-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-1);
   margin-bottom: 0.75rem;
   font-family: system-ui, sans-serif;
 }
 
 .acc-desc {
   font-size: 0.85rem;
-  color: #64748b;
+  color: var(--text-3);
   line-height: 1.5;
   margin-bottom: 1rem;
   font-family: system-ui, sans-serif;
 }
 
-.acc-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
+.acc-field { display: flex; flex-direction: column; gap: 0.2rem; }
 
 .acc-field-label {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #475569;
+  color: var(--text-3);
   font-family: system-ui, sans-serif;
 }
 
 .acc-field-value {
   font-size: 0.95rem;
-  color: #cbd5e1;
+  color: var(--text-1);
   font-family: monospace;
 }
 
 .acc-btn-danger {
   background: transparent;
-  border: 1px solid #7f1d1d;
-  color: #fca5a5;
+  border: 1px solid var(--err-border);
+  color: var(--err-text);
   padding: 0.6rem 1.25rem;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -67,17 +62,16 @@
   font-family: system-ui, sans-serif;
 }
 .acc-btn-danger:hover {
-  background: #450a0a;
-  border-color: #ef4444;
-  color: #fca5a5;
+  background: var(--err-bg);
+  border-color: var(--err-text);
 }
 
 .acc-coming-soon {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #1e3a5f;
-  color: #818cf8;
+  background: var(--accent-muted);
+  color: var(--accent-light);
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -89,9 +83,9 @@
 
 .acc-plan-badge {
   display: inline-block;
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: #64748b;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  color: var(--text-3);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.25rem 0.75rem;

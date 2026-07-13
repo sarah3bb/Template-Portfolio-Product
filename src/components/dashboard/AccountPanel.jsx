@@ -1,4 +1,5 @@
 import React from 'react';
+import PreferencesSection from './PreferencesSection';
 import './AccountPanel.css';
 
 export default function AccountPanel({ user, onSignOut }) {
@@ -12,6 +13,9 @@ export default function AccountPanel({ user, onSignOut }) {
           <span className="acc-field-label">Email address</span>
           <span className="acc-field-value">{user?.email || '—'}</span>
         </div>
+
+        {/* Preferences — lives inside the account card for visual grouping */}
+        <PreferencesSection userId={user?.id} />
       </div>
 
       {/* Sign out */}

@@ -1,7 +1,7 @@
 .landing-page {
   min-height: 100vh;
-  background: #0f172a;
-  color: #f1f5f9;
+  background: var(--bg-page);
+  color: var(--text-1);
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -10,13 +10,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 2rem;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-topbar);
 }
 
 .landing-logo {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #6366f1;
+  color: var(--accent);
 }
 
 .landing-hero {
@@ -31,11 +32,12 @@
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 1.25rem;
+  color: var(--text-1);
 }
 
 .landing-hero p {
   font-size: 1.125rem;
-  color: #94a3b8;
+  color: var(--text-2);
   line-height: 1.7;
   margin-bottom: 2rem;
 }
@@ -48,7 +50,7 @@
 }
 
 .landing-btn-primary {
-  background: #6366f1;
+  background: var(--accent);
   color: #fff;
   border: none;
   padding: 0.875rem 2rem;
@@ -56,33 +58,34 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
-.landing-btn-primary:hover { background: #4f46e5; }
+.landing-btn-primary:hover { background: var(--accent-hover); }
 
 .landing-btn-secondary {
   background: transparent;
-  color: #94a3b8;
-  border: 1px solid #334155;
+  color: var(--text-2);
+  border: 1px solid var(--border-strong);
   padding: 0.875rem 2rem;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.15s, color 0.15s;
 }
-.landing-btn-secondary:hover { border-color: #6366f1; color: #fff; }
+.landing-btn-secondary:hover { border-color: var(--accent); color: var(--text-1); }
 
 .landing-btn-outline {
   background: transparent;
-  color: #94a3b8;
-  border: 1px solid #334155;
+  color: var(--text-2);
+  border: 1px solid var(--border-strong);
   padding: 0.5rem 1.25rem;
   border-radius: 6px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.15s, color 0.15s;
+  font-family: inherit;
 }
-.landing-btn-outline:hover { border-color: #6366f1; color: #fff; }
+.landing-btn-outline:hover { border-color: var(--accent); color: var(--text-1); }
 
 .landing-steps {
   display: flex;
@@ -93,11 +96,13 @@
 }
 
 .landing-step {
-  background: #1e293b;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 2rem;
   max-width: 260px;
   text-align: center;
+  box-shadow: var(--shadow-card);
 }
 
 .step-number {
@@ -105,13 +110,14 @@
   width: 2.5rem;
   height: 2.5rem;
   line-height: 2.5rem;
-  background: #6366f1;
+  background: var(--accent);
   border-radius: 50%;
   font-weight: 700;
   font-size: 1.1rem;
   margin-bottom: 1rem;
+  color: #fff;
 }
 
-.landing-step h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-.landing-step p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
-.landing-step code { color: #a5b4fc; font-size: 0.8rem; }
+.landing-step h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-1); }
+.landing-step p  { color: var(--text-2); font-size: 0.9rem; line-height: 1.6; }
+.landing-step code { color: var(--accent-light); font-size: 0.8rem; }

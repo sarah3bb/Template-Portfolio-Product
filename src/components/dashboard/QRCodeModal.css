@@ -1,7 +1,7 @@
 .qr-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--bg-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,14 +10,15 @@
 }
 
 .qr-modal {
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
   width: 100%;
   max-width: 380px;
   text-align: center;
   position: relative;
+  box-shadow: var(--shadow-modal);
 }
 
 .qr-close {
@@ -26,25 +27,26 @@
   right: 1rem;
   background: none;
   border: none;
-  color: #64748b;
+  color: var(--text-3);
   font-size: 1.1rem;
   cursor: pointer;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   transition: color 0.15s;
+  font-family: inherit;
 }
-.qr-close:hover { color: #f1f5f9; }
+.qr-close:hover { color: var(--text-1); }
 
 .qr-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-1);
   margin-bottom: 0.5rem;
 }
 
 .qr-subtitle {
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: var(--text-2);
   line-height: 1.5;
   margin-bottom: 1.5rem;
 }
@@ -59,7 +61,7 @@
 
 .qr-url {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-3);
   word-break: break-all;
   margin-bottom: 1.5rem;
   font-family: monospace;
@@ -74,7 +76,7 @@
 }
 
 .qr-btn-primary {
-  background: #6366f1;
+  background: var(--accent);
   color: #fff;
   border: none;
   padding: 0.7rem 1.25rem;
@@ -82,24 +84,26 @@
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
+  font-family: inherit;
 }
-.qr-btn-primary:hover { background: #4f46e5; }
+.qr-btn-primary:hover { background: var(--accent-hover); }
 
 .qr-btn-secondary {
   background: transparent;
-  color: #94a3b8;
-  border: 1px solid #334155;
+  color: var(--text-2);
+  border: 1px solid var(--border-strong);
   padding: 0.7rem 1.25rem;
   border-radius: 8px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.15s, color 0.15s;
+  font-family: inherit;
 }
-.qr-btn-secondary:hover { border-color: #6366f1; color: #a5b4fc; }
+.qr-btn-secondary:hover { border-color: var(--accent); color: var(--accent-light); }
 
 .qr-hint {
   font-size: 0.75rem;
-  color: #475569;
+  color: var(--text-4);
   line-height: 1.5;
 }

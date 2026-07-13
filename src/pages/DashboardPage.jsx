@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { useTheme } from '../context/ThemeContext';
 import { checkSlugAvailable } from '../services/portfolioService';
 import { isSupabaseConfigured } from '../lib/supabaseClient';
 import SetupWarning from '../components/SetupWarning';
@@ -41,8 +42,13 @@ const PANEL_META = {
 /* ── Component ─────────────────────────────────────────────── */
 export default function DashboardPage() {
   // All hooks at the top — React Rules of Hooks
-  const { user, signOut }                                     = useAuth();
-  const { portfolio, loading, saving, error, saveSuccess, save } = usePortfolio(user);
+  const { user, signOut }                                          = useAuth();
+  const { portfolio, loading, saving, error, saveSuccess, save }   = usePortfolio(user);
+  const { syncFromSupabase }                                       = useTheme();
+
+  // Pull the user's saved theme preference from Supabase on first login
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (user) syncFromSupabase(user.id); }, [user?.id]);
 
   const [form, setForm]           = useState(null);
   const [activeTab, setActiveTab] = useState('content');
