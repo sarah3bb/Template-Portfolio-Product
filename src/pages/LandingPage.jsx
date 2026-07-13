@@ -8,14 +8,14 @@ export default function LandingPage() {
   return (
     <div className="landing-page">
       <nav className="landing-nav">
-        <span className="landing-logo">Workfolio - Simplest Portfolio Builder</span>
+        <span className="landing-logo">Workfolio - Easiest Portfolio Builder</span>
         <button className="landing-btn-outline" onClick={() => navigate('/login')}>
           Log In / Sign Up
         </button>
       </nav>
 
       <div className="landing-hero">
-        <h1>Build your portfolio.<br />No code required.</h1>
+        <h1>Build your portfolio today<br />No code required!</h1>
         <p>
           Create a beautiful, professional portfolio in minutes. Upload your photos,
           fill in your details, and share your public link — no coding, no GitHub,
