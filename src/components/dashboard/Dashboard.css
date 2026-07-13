@@ -48,10 +48,10 @@
 }
 
 .dash-topbar-brand {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 800;
   color: var(--text-1);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 
 .dash-topbar-right {

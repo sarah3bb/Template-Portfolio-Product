@@ -44,7 +44,14 @@ export default function DashboardPage() {
   // All hooks at the top — React Rules of Hooks
   const { user, signOut }                                          = useAuth();
   const { portfolio, loading, saving, error, saveSuccess, save }   = usePortfolio(user);
-  const { syncFromSupabase }                                       = useTheme();
+  const { syncFromSupabase, setPreference }                        = useTheme();
+
+  // Reset to system preference on logout so the landing page
+  // always follows the OS setting for visitors who aren't logged in.
+  function handleSignOut() {
+    setPreference('system');
+    signOut();
+  }
 
   // Pull the user's saved theme preference from Supabase on first login
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -219,7 +226,7 @@ export default function DashboardPage() {
 
           {/* ── Account tab ─────────────────────── */}
           {activeTab === 'account' && (
-            <AccountPanel user={user} onSignOut={signOut} />
+            <AccountPanel user={user} onSignOut={handleSignOut} />
           )}
         </main>
       </div>
