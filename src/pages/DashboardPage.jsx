@@ -129,7 +129,7 @@ export default function DashboardPage() {
           >
             ☰
           </button>
-          <span className="dash-topbar-brand">My Portfolio</span>
+          <span className="dash-topbar-brand">Workfolio</span>
         </div>
         <div className="dash-topbar-right">
           {saveSuccess && <span className="save-status-success">✓ Saved!</span>}

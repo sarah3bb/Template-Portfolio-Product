@@ -8,7 +8,7 @@ export default function LandingPage() {
   return (
     <div className="landing-page">
       <nav className="landing-nav">
-        <span className="landing-logo">PortfolioBuilder</span>
+        <span className="landing-logo">Workfolio - Simplest Portfolio Builder</span>
         <button className="landing-btn-outline" onClick={() => navigate('/login')}>
           Log In / Sign Up
         </button>
