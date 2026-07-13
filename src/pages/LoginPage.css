@@ -99,6 +99,22 @@
   font-size: 0.875rem;
 }
 
+.login-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+.login-back:hover { color: var(--text-1); }
+
 .login-toggle button {
   background: none;
   border: none;

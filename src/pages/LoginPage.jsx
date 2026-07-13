@@ -55,6 +55,14 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
+        <button
+          onClick={() => navigate('/')}
+          className="login-back"
+          aria-label="Back to home"
+        >
+          ← Back
+        </button>
+
         <h1 className="login-title">
           {mode === 'login' ? 'Welcome back' : 'Create your account'}
         </h1>
