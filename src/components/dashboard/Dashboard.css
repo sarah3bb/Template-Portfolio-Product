@@ -71,6 +71,12 @@
   font-size: 0.8rem;
   white-space: nowrap;
 }
+.save-status-unsaved,
+.save-status-saving {
+  color: var(--text-3);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
 
 .btn-save {
   background: var(--accent);
@@ -568,6 +574,8 @@
 @media (max-width: 480px) {
   .dash-topbar              { padding: 0 1rem; }
   .save-status-success,
-  .save-status-error        { display: none; }
+  .save-status-error,
+  .save-status-unsaved,
+  .save-status-saving       { display: none; }
   .dash-section-body        { padding: 1.25rem 1rem; }
 }

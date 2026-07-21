@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { useTheme } from '../context/ThemeContext';
@@ -34,17 +34,26 @@ const NAV = [
 
 const PANEL_META = {
   content:    { title: 'Portfolio Content',  subtitle: 'Edit everything that appears on your portfolio.' },
-  appearance: { title: 'Appearance',          subtitle: 'Customise colours, fonts, and layout. Save Changes to apply.' },
+  appearance: { title: 'Appearance',          subtitle: 'Customise colours, fonts, and layout.' },
   share:      { title: 'Share & Publish',     subtitle: 'Control who can see your portfolio and share your link.' },
   account:    { title: 'Account',             subtitle: 'Manage your login and plan.' },
 };
 
+const STATUS_LABEL = {
+  unsaved: 'Unsaved changes',
+  saving:  'Saving…',
+  saved:   'Saved',
+  error:   'Save failed — retry',
+};
+
+const AUTOSAVE_DELAY_MS = 1000;
+
 /* ── Component ─────────────────────────────────────────────── */
 export default function DashboardPage() {
   // All hooks at the top — React Rules of Hooks
-  const { user, signOut }                                          = useAuth();
-  const { portfolio, loading, saving, error, saveSuccess, save }   = usePortfolio(user);
-  const { syncFromSupabase, setPreference }                        = useTheme();
+  const { user, signOut }           = useAuth();
+  const { portfolio, loading, error, save } = usePortfolio(user);
+  const { syncFromSupabase, setPreference } = useTheme();
 
   // Reset to system preference on logout so the landing page
   // always follows the OS setting for visitors who aren't logged in.
@@ -61,10 +70,120 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('content');
   const [sidebarOpen, setSidebar] = useState(false);
   const [slugError, setSlugError] = useState('');
+  const [status, setStatus]       = useState('idle'); // idle | unsaved | saving | saved | error
+
+  // Load the portfolio into the form exactly once — later re-syncing on
+  // every `portfolio` update would clobber edits made while a save is in flight.
+  const formInitialized = useRef(false);
+  const lastSavedRef     = useRef(null); // last successfully saved snapshot, for dirty-checking
+  const formRef          = useRef(null); // always holds the latest form, for use inside async/debounced callbacks
+  const savingRef        = useRef(false); // true while a save request is in flight — blocks concurrent saves
+  const pendingRef       = useRef(false); // a save was requested while one was already in flight
 
   useEffect(() => {
-    if (portfolio) setForm({ ...portfolio });
+    if (portfolio && !formInitialized.current) {
+      formInitialized.current = true;
+      setForm({ ...portfolio });
+      lastSavedRef.current = { ...portfolio };
+    }
   }, [portfolio]);
+
+  useEffect(() => {
+    formRef.current = form;
+  }, [form]);
+
+  // Debounced autosave — one timer for the whole form, reset on every edit.
+  useEffect(() => {
+    if (!form) return;
+    if (JSON.stringify(form) === JSON.stringify(lastSavedRef.current)) return;
+
+    setStatus('unsaved');
+    const timer = setTimeout(() => {
+      performSave(formRef.current);
+    }, AUTOSAVE_DELAY_MS);
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
+
+  // Scroll position per tab — single listener for the component's lifetime,
+  // throttled to one update per animation frame.
+  const scrollPositions = useRef({ content: 0, appearance: 0, share: 0, account: 0 });
+  const activeTabRef    = useRef(activeTab);
+  useEffect(() => { activeTabRef.current = activeTab; }, [activeTab]);
+
+  useEffect(() => {
+    let rafId = null;
+    function handleScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        scrollPositions.current[activeTabRef.current] = window.scrollY;
+        rafId = null;
+      });
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  // Restore the tab's scroll position after its content has rendered.
+  useEffect(() => {
+    const y = scrollPositions.current[activeTab] || 0;
+    const rafId = requestAnimationFrame(() => window.scrollTo(0, y));
+    return () => cancelAnimationFrame(rafId);
+  }, [activeTab]);
+
+  // Core save routine, shared by autosave and the manual "Save now" button.
+  async function performSave(data, { redirectOnSlugError = false } = {}) {
+    if (!data) return;
+
+    if (savingRef.current) {
+      pendingRef.current = true;
+      return;
+    }
+
+    if (JSON.stringify(data) === JSON.stringify(lastSavedRef.current)) {
+      return; // nothing changed since the last successful save
+    }
+
+    if (!data.slug || !/^[a-z0-9-]+$/.test(data.slug)) {
+      setSlugError('Your URL can only contain lowercase letters, numbers, and hyphens (e.g. jane-smith).');
+      if (redirectOnSlugError) setActiveTab('share');
+      setStatus('error');
+      return;
+    }
+
+    savingRef.current = true;
+    setStatus('saving');
+
+    try {
+      if (data.slug !== lastSavedRef.current?.slug) {
+        const slugOk = await checkSlugAvailable(data.slug, user.id);
+        if (!slugOk) {
+          setSlugError('That URL is already taken — please choose a different one.');
+          if (redirectOnSlugError) setActiveTab('share');
+          setStatus('error');
+          return;
+        }
+      }
+      setSlugError('');
+      await save(data);
+      lastSavedRef.current = data;
+      // If newer edits landed while this save was in flight, keep showing "unsaved" —
+      // the pending re-save below (or the next debounce cycle) will pick them up.
+      setStatus(JSON.stringify(formRef.current) === JSON.stringify(data) ? 'saved' : 'unsaved');
+    } catch {
+      setStatus('error');
+    } finally {
+      savingRef.current = false;
+      if (pendingRef.current) {
+        pendingRef.current = false;
+        performSave(formRef.current);
+      }
+    }
+  }
 
   // Safe to conditionally render after all hooks
   if (!isSupabaseConfigured) return <SetupWarning />;
@@ -94,26 +213,7 @@ export default function DashboardPage() {
   }
 
   async function handleSave() {
-    setSlugError('');
-
-    if (!form.slug || !/^[a-z0-9-]+$/.test(form.slug)) {
-      setSlugError('Your URL can only contain lowercase letters, numbers, and hyphens (e.g. jane-smith).');
-      setActiveTab('share');
-      return;
-    }
-
-    const slugOk = await checkSlugAvailable(form.slug, user.id);
-    if (!slugOk) {
-      setSlugError('That URL is already taken — please choose a different one.');
-      setActiveTab('share');
-      return;
-    }
-
-    try {
-      await save(form);
-    } catch {
-      // error is set by usePortfolio
-    }
+    await performSave(formRef.current, { redirectOnSlugError: true });
   }
 
   function switchTab(id) {
@@ -139,10 +239,13 @@ export default function DashboardPage() {
           <span className="dash-topbar-brand">Workfolio</span>
         </div>
         <div className="dash-topbar-right">
-          {saveSuccess && <span className="save-status-success">✓ Saved!</span>}
-          {error       && <span className="save-status-error">⚠ {error}</span>}
-          <button className="btn-save" onClick={handleSave} disabled={saving}>
-            {saving ? 'Saving…' : 'Save Changes'}
+          {STATUS_LABEL[status] && (
+            <span className={`save-status-${status === 'saved' ? 'success' : status}`}>
+              {STATUS_LABEL[status]}
+            </span>
+          )}
+          <button className="btn-save" onClick={handleSave} disabled={status === 'saving'}>
+            {status === 'saving' ? 'Saving…' : 'Save now'}
           </button>
         </div>
       </header>
