@@ -13,6 +13,7 @@ export function usePortfolio(user) {
       setLoading(false);
       return;
     }
+    if (import.meta.env.DEV) console.log('[usePortfolio] data refetch triggered', user.id);
     setLoading(true);
     setError(null);
     try {
@@ -26,7 +27,11 @@ export function usePortfolio(user) {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+    // Depend on the user id, not the user object — Supabase emits a new
+    // session/user object on every token refresh (e.g. on tab-focus regain),
+    // which must not trigger a reload of the dashboard.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   useEffect(() => {
     load();

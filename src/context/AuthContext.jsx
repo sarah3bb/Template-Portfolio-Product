@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (import.meta.env.DEV) console.log('[auth] state event received:', _event);
       setUser(session?.user ?? null);
     });
 
