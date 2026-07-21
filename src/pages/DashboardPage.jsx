@@ -92,10 +92,10 @@ export default function DashboardPage() {
     formRef.current = form;
   }, [form]);
 
-  // Temporary dev-only diagnostics for the tab-focus scroll/autosave issue.
+  // TEMPORARY DEBUG — remove after diagnosing the tab-switch scroll reset.
   useEffect(() => {
-    if (import.meta.env.DEV) console.log('[dashboard] mounted');
-    return () => { if (import.meta.env.DEV) console.log('[dashboard] unmounted'); };
+    console.log('[SCROLL-DEBUG] Dashboard mounted, scrollY =', window.scrollY);
+    return () => console.log('[SCROLL-DEBUG] Dashboard unmounted, scrollY =', window.scrollY);
   }, []);
 
   // Debounced autosave — one timer for the whole form, reset on every edit.
@@ -119,23 +119,42 @@ export default function DashboardPage() {
 
   // Flush any pending autosave immediately when the tab regains focus —
   // background tabs throttle setTimeout, so the debounce could otherwise
-  // sit unsaved for a long time. Also purely diagnostic logging of
-  // visibility changes and scroll position, requested for this issue.
+  // sit unsaved for a long time.
   useEffect(() => {
     function handleVisibilityChange() {
-      if (document.visibilityState === 'hidden') {
-        if (import.meta.env.DEV) console.log('[dashboard] visibility state changed: hidden, scrollY =', window.scrollY);
-        return;
-      }
-      if (import.meta.env.DEV) console.log('[dashboard] visibility state changed: visible, scrollY =', window.scrollY);
+      // TEMPORARY DEBUG — remove after diagnosing the tab-switch scroll reset.
+      console.log('[SCROLL-DEBUG] visibilitychange ->', document.visibilityState, 'scrollY =', window.scrollY);
+
+      if (document.visibilityState === 'hidden') return;
+
       const dirty = formRef.current && JSON.stringify(formRef.current) !== JSON.stringify(lastSavedRef.current);
       if (dirty) {
         clearTimeout(debounceTimerRef.current);
         performSave(formRef.current);
       }
     }
+
+    // TEMPORARY DEBUG — remove after diagnosing the tab-switch scroll reset.
+    function handleBeforeUnload() {
+      console.log('[SCROLL-DEBUG] beforeunload, scrollY =', window.scrollY);
+    }
+    function handlePageHide(e) {
+      console.log('[SCROLL-DEBUG] pagehide, persisted =', e.persisted, 'scrollY =', window.scrollY);
+    }
+    function handlePageShow(e) {
+      console.log('[SCROLL-DEBUG] pageshow, persisted =', e.persisted, 'scrollY =', window.scrollY);
+    }
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('pageshow', handlePageShow);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('pageshow', handlePageShow);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

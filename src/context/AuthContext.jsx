@@ -20,7 +20,8 @@ export function AuthProvider({ children }) {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (import.meta.env.DEV) console.log('[auth] state event received:', _event);
+      // TEMPORARY DEBUG — remove after diagnosing the tab-switch scroll reset.
+      console.log('[SCROLL-DEBUG] auth state change ->', _event, 'scrollY =', window.scrollY);
       setUser(session?.user ?? null);
     });
 

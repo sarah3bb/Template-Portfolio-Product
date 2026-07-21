@@ -13,7 +13,8 @@ export function usePortfolio(user) {
       setLoading(false);
       return;
     }
-    if (import.meta.env.DEV) console.log('[usePortfolio] data refetch triggered', user.id);
+    // TEMPORARY DEBUG — remove after diagnosing the tab-switch scroll reset.
+    console.log('[SCROLL-DEBUG] portfolio refetch triggered, userId =', user.id, 'scrollY =', window.scrollY);
     setLoading(true);
     setError(null);
     try {

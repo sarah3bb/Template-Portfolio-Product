@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 
 import LandingPage from './pages/LandingPage';
@@ -11,6 +11,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const { user, loading } = useAuth();
+  const location = useLocation();
+
+  // TEMPORARY DEBUG — remove after diagnosing the tab-switch scroll reset.
+  useEffect(() => {
+    console.log('[SCROLL-DEBUG] route navigation ->', location.pathname, 'scrollY =', window.scrollY);
+  }, [location.pathname]);
 
   return (
     <Routes>
