@@ -5,15 +5,15 @@ const defaultPortfolio = {
   slug: 'my-portfolio',
   published: true,
 
-  first_name: 'Your',
-  last_name: 'Name',
-  job_title: 'Your Job Title',
-  company_name: 'Your Company',
+  first_name: '',
+  last_name: '',
+  job_title: '',
+  company_name: '',
   company_logos: [],
-  email: 'you@example.com',
-  phone: '+1 234 567 890',
-  city: 'Your City',
-  location: 'Your Country',
+  email: '',
+  phone: '',
+  city: '',
+  location: '',
 
   profile_image_url: '',
   background_image_url: '',
@@ -26,11 +26,11 @@ const defaultPortfolio = {
   experience: [
     {
       id: 1,
-      year: '2023 - Present',
-      title: 'Your Current Role',
-      company: 'Company Name',
-      location: 'City, Country',
-      description: 'Describe what you do in this role.',
+      year: '',
+      title: '',
+      company: '',
+      location: '',
+      description: '',
       technologies: [],
       achievements: [],
     },
@@ -38,8 +38,8 @@ const defaultPortfolio = {
 
   hobbies: [
     {
-      title: 'Add a hobby or interest',
-      description: 'Tell visitors what you enjoy outside of work.',
+      title: '',
+      description: '',
       demoUrl: '',
     },
   ],
@@ -47,12 +47,12 @@ const defaultPortfolio = {
   social_links: [
     {
       label: 'LinkedIn',
-      url: 'https://linkedin.com/in/your-profile',
+      url: '',
       icon: 'lni lni-linkedin',
     },
   ],
 
-  typewriter_text: ['Your Job Title', 'Your University', 'Your City'],
+  typewriter_text: ['', '', ''],
 
   categories: [],
 
