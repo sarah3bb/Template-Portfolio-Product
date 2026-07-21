@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { useTheme } from '../context/ThemeContext';
@@ -31,6 +32,8 @@ const NAV = [
   { id: 'share',      label: 'Share & Publish'   },
   { id: 'account',    label: 'Account'           },
 ];
+
+const VALID_TABS = NAV.map(item => item.id);
 
 const PANEL_META = {
   content:    { title: 'Portfolio Content',  subtitle: 'Edit everything that appears on your portfolio.' },
@@ -67,10 +70,20 @@ export default function DashboardPage() {
   useEffect(() => { if (user) syncFromSupabase(user.id); }, [user?.id]);
 
   const [form, setForm]           = useState(null);
-  const [activeTab, setActiveTab] = useState('content');
   const [sidebarOpen, setSidebar] = useState(false);
   const [slugError, setSlugError] = useState('');
   const [status, setStatus]       = useState('idle'); // idle | unsaved | saving | saved | error
+
+  // Active tab lives in the URL (?tab=) so it survives a page reload.
+  // Read directly from search params on every render (no local state to
+  // desync) — falls back to 'content' when missing or invalid.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam  = searchParams.get('tab');
+  const activeTab = VALID_TABS.includes(tabParam) ? tabParam : 'content';
+
+  function setActiveTab(id) {
+    setSearchParams({ tab: id }, { replace: true });
+  }
 
   // Load the portfolio into the form exactly once — later re-syncing on
   // every `portfolio` update would clobber edits made while a save is in flight.

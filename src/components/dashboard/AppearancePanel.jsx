@@ -87,7 +87,7 @@ function StylePreview({ c }) {
 
         {/* Button */}
         <button className="ap-preview-btn" style={{ borderRadius: btnRadius, background: accent, border: `1px solid ${accent}` }}>
-          View Portfolio
+          Buttons
         </button>
 
         {/* Card */}
