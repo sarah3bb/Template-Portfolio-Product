@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "homepage": "https://github.com/Pfrommer1982/Complete_React_Portfolio",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
