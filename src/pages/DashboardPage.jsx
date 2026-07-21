@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { useTheme } from '../context/ThemeContext';
@@ -92,19 +92,52 @@ export default function DashboardPage() {
     formRef.current = form;
   }, [form]);
 
+  // Temporary dev-only diagnostics for the tab-focus scroll/autosave issue.
+  useEffect(() => {
+    if (import.meta.env.DEV) console.log('[dashboard] mounted');
+    return () => { if (import.meta.env.DEV) console.log('[dashboard] unmounted'); };
+  }, []);
+
   // Debounced autosave — one timer for the whole form, reset on every edit.
+  // Stored in a ref (not a local var) so the visibility-flush effect below
+  // can cancel a pending debounce and save immediately instead.
+  const debounceTimerRef = useRef(null);
   useEffect(() => {
     if (!form) return;
     if (JSON.stringify(form) === JSON.stringify(lastSavedRef.current)) return;
 
     setStatus('unsaved');
-    const timer = setTimeout(() => {
+    if (import.meta.env.DEV) console.log('[autosave] pending');
+    clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(() => {
       performSave(formRef.current);
     }, AUTOSAVE_DELAY_MS);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(debounceTimerRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
+
+  // Flush any pending autosave immediately when the tab regains focus —
+  // background tabs throttle setTimeout, so the debounce could otherwise
+  // sit unsaved for a long time. Also purely diagnostic logging of
+  // visibility changes and scroll position, requested for this issue.
+  useEffect(() => {
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'hidden') {
+        if (import.meta.env.DEV) console.log('[dashboard] visibility state changed: hidden, scrollY =', window.scrollY);
+        return;
+      }
+      if (import.meta.env.DEV) console.log('[dashboard] visibility state changed: visible, scrollY =', window.scrollY);
+      const dirty = formRef.current && JSON.stringify(formRef.current) !== JSON.stringify(lastSavedRef.current);
+      if (dirty) {
+        clearTimeout(debounceTimerRef.current);
+        performSave(formRef.current);
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Scroll position per tab — single listener for the component's lifetime,
   // throttled to one update per animation frame.
@@ -128,11 +161,10 @@ export default function DashboardPage() {
     };
   }, []);
 
-  // Restore the tab's scroll position after its content has rendered.
-  useEffect(() => {
-    const y = scrollPositions.current[activeTab] || 0;
-    const rafId = requestAnimationFrame(() => window.scrollTo(0, y));
-    return () => cancelAnimationFrame(rafId);
+  // Restore the tab's scroll position synchronously right after its content
+  // is committed to the DOM, before the browser paints.
+  useLayoutEffect(() => {
+    window.scrollTo(0, scrollPositions.current[activeTab] || 0);
   }, [activeTab]);
 
   // Core save routine, shared by autosave and the manual "Save now" button.
@@ -157,6 +189,7 @@ export default function DashboardPage() {
 
     savingRef.current = true;
     setStatus('saving');
+    if (import.meta.env.DEV) console.log('[autosave] started');
 
     try {
       if (data.slug !== lastSavedRef.current?.slug) {
@@ -171,10 +204,12 @@ export default function DashboardPage() {
       setSlugError('');
       await save(data);
       lastSavedRef.current = data;
+      if (import.meta.env.DEV) console.log('[autosave] succeeded');
       // If newer edits landed while this save was in flight, keep showing "unsaved" —
       // the pending re-save below (or the next debounce cycle) will pick them up.
       setStatus(JSON.stringify(formRef.current) === JSON.stringify(data) ? 'saved' : 'unsaved');
-    } catch {
+    } catch (err) {
+      if (import.meta.env.DEV) console.log('[autosave] failed', err);
       setStatus('error');
     } finally {
       savingRef.current = false;
