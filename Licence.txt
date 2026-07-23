@@ -1,6 +1,6 @@
 # Proprietary Software License
 
-Copyright © 2026 Sarah Brown. All rights reserved.
+Copyright © 2026 Sarah Abbas. All rights reserved.
 
 This software and its associated documentation are proprietary and confidential.
 
