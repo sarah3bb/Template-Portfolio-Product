@@ -29,11 +29,9 @@ export default function AboutMe({ portfolio }) {
           <div className="col-lg-6 col-md-12 d-flex align-items-center">
             <div className="bio-copy">
               <h2>About me:</h2>
-              <p>
-                <hr />
-                {infotext}
-                <hr />
-              </p>
+              <hr />
+              <p>{infotext}</p>
+              <hr />
               {slogan && <h2>{slogan}</h2>}
 
               <div className="bio-card">

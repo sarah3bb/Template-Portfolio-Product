@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import './ContactMe.css';
 
 const PLACEHOLDER_TOKEN = 'XXXX';
 
 function isEmailJsConfigured({ serviceID, templateID, userID }) {
   return Boolean(
-    serviceID && templateID && userID &&
+    serviceID?.trim() && templateID?.trim() && userID?.trim() &&
     ![serviceID, templateID, userID].some(id => id.includes(PLACEHOLDER_TOKEN))
   );
 }
@@ -15,14 +15,24 @@ function isEmailJsConfigured({ serviceID, templateID, userID }) {
 function useEmailJsForm({ serviceID, templateID, userID }) {
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
-  function submit(formEl) {
+  async function submit(formEl) {
     setStatus('sending');
-    emailjs.sendForm(serviceID, templateID, formEl, userID)
-      .then(() => {
-        setStatus('sent');
-        formEl.reset();
-      })
-      .catch(() => setStatus('error'));
+    try {
+      const response = await emailjs.sendForm(
+        serviceID.trim(),
+        templateID.trim(),
+        formEl,
+        { publicKey: userID.trim() }
+      );
+      console.info('[ContactMe] EmailJS message sent:', { status: response.status, text: response.text });
+      setStatus('sent');
+      formEl.reset();
+    } catch (err) {
+      // Logged for the portfolio owner to debug (e.g. via the browser console) —
+      // deliberately not shown to the visitor filling out the public form.
+      console.error('[ContactMe] EmailJS send failed:', { status: err?.status, text: err?.text, message: err?.message });
+      setStatus('error');
+    }
   }
 
   return { status, submit };
@@ -65,6 +75,11 @@ export default function ContactMe({ emailConfig, email }) {
             <form ref={formRef} onSubmit={handleSubmit} className="contact-card__body">
               <h5 className="contact-card__title">Contact Me</h5>
               <p className="contact-card__subtitle">Let&apos;s work together!</p>
+
+              {/* EmailJS templates route the message using a "To Email" field that's
+                  usually set to {{to_email}} — send it explicitly so it's never empty,
+                  regardless of how the portfolio owner named it in their template. */}
+              <input type="hidden" name="to_email" value={email} readOnly />
 
               <input type="text" name="user_name" placeholder="Name" className="contact-card__field" required />
               <input type="email" name="user_email" placeholder="Email" className="contact-card__field" required />
