@@ -1,125 +1,90 @@
+/* Shared design tokens and base element styles for the public portfolio page.
+   Component stylesheets under src/components/** import this file and build
+   on top of these custom properties. */
 
-/* @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Oswald:wght@200&display=swap'); */
-
-/* @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Oswald:wght@200&display=swap'); */
-
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Inter:wght@400;500;600&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
-
-
-@font-face {
-  font-family: 'Arrow';
-  src: url('/fonts/Almo_Andrea_FontlabARROW.ttf') format('truetype');
-}
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&display=swap');
 
 @font-face {
   font-family: 'Amethysta';
   src: url('/fonts/Amethysta-Regular.ttf') format('truetype');
+  font-display: swap;
 }
 
 :root {
-  --light-white: #eefbfc ;
-  --light-color: #ffffff;
-  --medium-color: #000000;
-  --dark-color: #c79b3b;
-  --highlight-color: #ffffff;
+  --color-surface: #ffffff;
+  --color-tint: #eefbfc;
+  --color-ink: #000000;
   --accent-color: #c79b3b;
 
+  --font-display: 'Amethysta', Georgia, serif;
+  --font-body: 'Oswald', 'Segoe UI', sans-serif;
+
+  --section-padding-y: 100px;
+  --section-padding-y-tablet: 60px;
+  --section-padding-y-mobile: 50px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
- 
 }
 
 body {
-  
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   letter-spacing: 0.2em;
   font-weight: normal;
   font-style: normal;
-  overflow-x: hidden;
-  /* text-align: left; */
 }
 
-h1, h2, h3 {
-  /* font-family: 'Alex Brush', sans-serif; */
-  /* font-family: Arial, sans-serif; */
-  /* font-family: 'Poppins', sans-serif; */
-  /* font-family: 'Montserrat', sans-serif; */
-  font-family: 'Amethysta', serif;
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
 }
 
 p {
-  /* font-family: 'Oswald', sans-serif; */
-  /* font-family: Arial, sans-serif; */
-  /* font-family: 'Poppins', sans-serif; */
-  /* font-family: 'Montserrat', sans-serif; */
-  font-family: 'Amethysta', serif;
   text-align: left;
 }
 
-/* h2  {
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Poppins', sans-serif;
-  font-family: 'Montserrat', sans-serif;
-  font-family: 'Amethysta', serif;
-} */
-
-/* h3 {
-  font-family: 'PT Sans', sans-serif;
-  font-family: Arial, sans-serif;
-  font-family: 'Poppins', sans-serif;
-  font-family: 'Montserrat', sans-serif;
-  font-family: 'Amethysta', serif;
-} */
-
 h5 {
-  /* font-family: Arial, sans-serif; */
-  /* font-family: 'Poppins', sans-serif; */
-  /* font-family: 'Montserrat', sans-serif; */
-  font-family: 'Amethysta', serif;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
   text-align: center !important;
 }
 
+.section {
+  position: relative;
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+}
 
-@media only screen and (min-width: 480px) and (max-width: 767px) {
+@media (min-width: 480px) and (max-width: 767px) {
   .container {
     width: 450px;
   }
 }
 
-.section {
-  padding-top: 100px;
-  padding-bottom: 100px;
-  position: relative;
-}
-
-
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
   .section {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: var(--section-padding-y-tablet);
+    padding-bottom: var(--section-padding-y-tablet);
   }
 }
 
 @media (max-width: 767px) {
   .section {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: var(--section-padding-y-mobile);
+    padding-bottom: var(--section-padding-y-mobile);
   }
 }

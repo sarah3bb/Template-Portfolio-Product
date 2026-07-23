@@ -9,7 +9,15 @@ import PortfolioPage from './pages/PortfolioPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
-function App() {
+const PUBLIC_ROUTES = [
+  { path: '/', element: <LandingPage /> },
+  { path: '/login', element: <LoginPage /> },
+  { path: '/p/:slug', element: <PortfolioPage /> },
+  { path: '/forgot-password', element: <ResetPasswordPage mode="forgot" /> },
+  { path: '/reset-password', element: <ResetPasswordPage mode="reset" /> },
+];
+
+export default function App() {
   const { user, loading } = useAuth();
   const location = useLocation();
 
@@ -20,14 +28,10 @@ function App() {
 
   return (
     <Routes>
-      {/* Public routes */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/p/:slug" element={<PortfolioPage />} />
-      <Route path="/forgot-password" element={<ResetPasswordPage mode="forgot" />} />
-      <Route path="/reset-password" element={<ResetPasswordPage mode="reset" />} />
+      {PUBLIC_ROUTES.map(route => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
 
-      {/* Protected dashboard */}
       <Route
         path="/dashboard"
         element={
@@ -37,10 +41,7 @@ function App() {
         }
       />
 
-      {/* Catch-all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
-
-export default App;

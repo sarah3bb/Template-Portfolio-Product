@@ -1,60 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 import './Achievement.css';
 
-const Achievement = ({ portfolio }) => {
+function Metric({ value, unit, word }) {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  return (
+    <div className="col-lg-4 col-md-4 col-12">
+      <div ref={ref} className="stats-band__metric">
+        {inView && (
+          <h3 className="stats-band__metric-value">
+            <CountUp start={0} end={Number(value)} duration={4} separator="," />
+            <span>{unit}</span>
+          </h3>
+        )}
+        <p>{word}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function Achievement({ portfolio }) {
   const { achievements = [], jobTitle = '', university = '' } = portfolio || {};
-  const [isVisible, setIsVisible] = useState(false);
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  useEffect(() => {
-    if (inView) setIsVisible(true);
-  }, [inView]);
-
-  const counterItems = achievements.filter(a => a.value != null && a.value !== '');
-  const textItems = achievements.filter(a => a.value == null || a.value === '');
+  const hasValue = item => item.value != null && item.value !== '';
+  const metrics = achievements.filter(hasValue);
+  const tags = achievements.filter(item => !hasValue(item));
 
   return (
-    <section className="our-achievement section">
+    <section className="stats-band section">
       <div className="container">
-        <div className="row">
-          <div className="col-lg-10 offset-lg-1 col-md-12 col-12">
-            <div className="title">
-              {jobTitle && <h2>{jobTitle}</h2>}
-              {university && <h3>{university}</h3>}
-            </div>
-          </div>
-        </div>
-
-        {textItems.length > 0 && (
+        {(jobTitle || university) && (
           <div className="row">
             <div className="col-lg-10 offset-lg-1 col-md-12 col-12">
-              <div className="achievement-text-list">
-                {textItems.map((item, i) => (
-                  <p key={i} className="achievement-text-item">{item.word}</p>
+              <div className="stats-band__heading">
+                {jobTitle && <h2>{jobTitle}</h2>}
+                {university && <h3>{university}</h3>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tags.length > 0 && (
+          <div className="row">
+            <div className="col-lg-10 offset-lg-1 col-md-12 col-12">
+              <div className="stats-band__tags">
+                {tags.map((tag, i) => (
+                  <p key={i} className="stats-band__tag">{tag.word}</p>
                 ))}
               </div>
             </div>
           </div>
         )}
 
-        {counterItems.length > 0 && (
+        {metrics.length > 0 && (
           <div className="row">
             <div className="col-lg-8 offset-lg-2 col-md-12 col-12">
               <div className="row">
-                {counterItems.map((info, index) => (
-                  <div className="col-lg-4 col-md-4 col-12" key={index}>
-                    <div ref={ref} className="single-achievement wow fadeInUp" data-wow-delay={`${index * 0.2}s`}>
-                      {isVisible && (
-                        <h3 className="counter">
-                          <CountUp start={0} end={Number(info.value)} duration={4} separator="," />
-                          <span>{info.unit}</span>
-                        </h3>
-                      )}
-                      <p>{info.word}</p>
-                    </div>
-                  </div>
+                {metrics.map((metric, i) => (
+                  <Metric key={i} value={metric.value} unit={metric.unit} word={metric.word} />
                 ))}
               </div>
             </div>
@@ -63,6 +67,4 @@ const Achievement = ({ portfolio }) => {
       </div>
     </section>
   );
-};
-
-export default Achievement;
+}

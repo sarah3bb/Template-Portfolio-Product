@@ -1,86 +1,79 @@
 @import url('../../../assets/css/main.css');
 
-.About {
-    background-color: var(--dark-color);
-  }
-  
-  .About .cta-content {
-    text-transform: none !important;
-    text-align: center;
-    padding: 0px 50px;
-  }
-  
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .About .cta-content {
-      padding: 0;
-    }
-  }
-  
-  @media (max-width: 767px) {
-    .About .cta-content {
-      padding: 0;
-    }
-  }
-  
-  .About .cta-content h2 {
-    color: var(--light-color);
-    line-height: 50px;
-    font-size: 38px;
-    font-weight: 700;
-    margin-bottom: 1em;
-  }
+.bio {
+  background-color: var(--accent-color);
+}
 
-  .About .cta-content h3 {
-    margin-top: 1em;
-  }
-  
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .About .cta-content h2 {
-      font-size: 32px;
-      line-height: 45px;
-    }
-  }
-  
-  @media (max-width: 767px) {
-    .About .cta-content h2 {
-      font-size: 25px;
-      line-height: 35px;
-    }
-  }
-  
-  .About .cta-content p {
-    font-family: 'Oswald', sans-serif;
-    color: var(--light-color);   
-  }
+.bio-copy {
+  padding: 0 50px;
+  text-align: center;
+  text-transform: none !important;
+}
 
-  h3 {
-    font-family: 'Segoe UI';
+.bio-copy h2 {
+  margin-bottom: 1em;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 50px;
+  color: var(--color-surface);
+}
+
+.bio-copy h3 {
+  margin-top: 1em;
+}
+
+.bio-copy p {
+  color: var(--color-surface);
+  font-family: 'Oswald', sans-serif;
+}
+
+.bio-card {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.bio-card__title {
+  margin: 0 0 0.75rem;
+  color: var(--color-surface);
+}
+
+.bio-card__info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  color: var(--color-surface);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bio-card__info-row:first-of-type {
+  border-top: none;
+}
+
+.bio-card__info-row span:first-child {
+  opacity: 0.7;
+}
+
+@media (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
+  .bio-copy {
+    padding: 0;
   }
-  
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .About .cta-content p {
-      padding: 0;
-    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .bio-copy h2 {
+    font-size: 32px;
+    line-height: 45px;
   }
-  
-  @media (max-width: 767px) {
-    .About .cta-content p {
-      padding: 0;
-    }
+}
+
+@media (max-width: 767px) {
+  .bio-copy h2 {
+    font-size: 25px;
+    line-height: 35px;
   }
-  
-  .About .cta-content .button {
-    margin-top: 40px;
-  }
-  
-  .About .cta-content .button .btn {
-    background-color: var(--accent-color);
-    color: var(--dark-color);
-  }
-  
-  .About .cta-content .button .btn:hover {
-    color: var(--dark-color);
-    background-color: var(--highlight-color);
-  }
-  
-  
+}

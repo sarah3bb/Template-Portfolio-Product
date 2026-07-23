@@ -3,90 +3,98 @@ import Navbar from '../Navbar/Navbar';
 import Typewriter from '../Typewriter/Typewriter';
 import './Hero.css';
 
-const Hero = ({ portfolio }) => {
-  if (!portfolio) return null;
-  const { name = {}, company = {}, socialProfiles = [], backgroundImageUrl = '' } = portfolio;
-  const { firstname = '', lastname = '', profileImage = '' } = name;
+function CompanyBadge({ name, logos }) {
+  if (!name) return null;
+  return (
+    <div className="hero-identity__company">
+      <h1 className="hero-identity__company-name">{name}</h1>
+      {logos.length > 0 && (
+        <div className="hero-identity__company-logos">
+          {logos.map((src, i) => (
+            <img key={src + i} src={src} alt={`Company logo ${i + 1}`} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
-  const heroStyle = backgroundImageUrl
-    ? { backgroundImage: `url(${backgroundImageUrl})` }
-    : {};
+function SocialButton({ href, icon, label }) {
+  return (
+    <a href={href} className="hero-portrait__social-btn" target="_blank" rel="noreferrer" aria-label={label}>
+      <i className={`hero-portrait__social-icon ${icon}`} />
+    </a>
+  );
+}
+
+export default function Hero({ portfolio }) {
+  if (!portfolio) return null;
+
+  const {
+    name = {},
+    company = {},
+    socialProfiles = [],
+    backgroundImageUrl = '',
+    typeWriterText,
+    email = '',
+    phone = '',
+  } = portfolio;
+  const { firstname = '', lastname = '', profileImage = '', url: resumeUrl = '' } = name;
+
+  const sectionStyle = backgroundImageUrl ? { backgroundImage: `url(${backgroundImageUrl})` } : undefined;
 
   return (
-    <section id='Home' className='hero-area' style={heroStyle}>
-      <Navbar portfolio={portfolio} />
+    <section id="Home" className="hero-area" style={sectionStyle}>
+      <Navbar />
 
-      <div className='container'>
-        <div className='row align-items-center hero-row'>
+      <div className="container">
+        <div className="row align-items-center hero-row">
+          <div className="col-lg-6 hero-identity">
+            <CompanyBadge name={company.name} logos={company.logos || []} />
 
-          {/* LEFT SIDE (TEXT) */}
-          <div className='col-lg-6 hero-content text-left'>
-            {company.name && (
-              <div className='company-container wow fadeInLeft' data-wow-delay='.3s'>
-                <h1 className='company-name'>{company.name}</h1>
-                {company.logos && company.logos.length > 0 && (
-                  <div className='company-logos'>
-                    {company.logos.map((logo, index) => (
-                      <img src={logo} alt={`company logo ${index + 1}`} key={index} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className='name-container wow fadeInLeft' data-wow-delay='.4s'>
+            <div className="hero-identity__name">
               <h2>{firstname} {lastname}</h2>
-              <div className='contact-info'>
-                {portfolio.email && <p>{portfolio.email}</p>}
-                {portfolio.phone && <p>{portfolio.phone}</p>}
-              </div>
+              {(email || phone) && (
+                <div className="hero-identity__contact">
+                  {email && <p>{email}</p>}
+                  {phone && <p>{phone}</p>}
+                </div>
+              )}
             </div>
 
-            <div className='typewriter-container wow fadeInLeft' data-wow-delay='.6s'>
-              <Typewriter typeWriterText={portfolio.typeWriterText} />
+            <div className="hero-identity__typewriter">
+              <Typewriter typeWriterText={typeWriterText} />
             </div>
           </div>
 
-          {/* RIGHT SIDE (IMAGE) */}
-          <div className='col-lg-6 hero-image-container wow fadeInRight' data-wow-delay='.6s'>
-            {profileImage && (
-              <img src={profileImage} alt="profile" className="hero-image" />
-            )}
+          <div className="col-lg-6 hero-portrait">
+            {profileImage && <img src={profileImage} alt="Profile" className="hero-portrait__photo" />}
 
-            <div className='image-socials'>
-              {(socialProfiles || []).map((profile, index) => (
-                <a
+            <div className="hero-portrait__socials">
+              {socialProfiles.map((profile, i) => (
+                <SocialButton
+                  key={profile.url || i}
                   href={profile.url}
-                  id='button'
-                  className='btn'
-                  key={index}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={profile.label || profile.name}
-                >
-                  <i className={`icon ${profile.icon}`}></i>
-                </a>
+                  icon={profile.icon}
+                  label={profile.label || profile.name}
+                />
               ))}
 
-              {name.url && (
+              {resumeUrl && (
                 <a
-                  href={name.url}
-                  id='button'
-                  className='btn'
+                  href={resumeUrl}
+                  className="hero-portrait__social-btn"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Resume"
                 >
-                  <i className="lni lni-download"> Resume</i>
+                  <i className="hero-portrait__social-icon lni lni-download"> Resume</i>
                 </a>
               )}
             </div>
           </div>
-
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

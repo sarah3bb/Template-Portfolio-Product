@@ -1,59 +1,56 @@
 import React from 'react';
-import './Projects.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './Projects.css';
 
-const Projects = ({ portfolio }) => {
-  const projectData = portfolio?.projectData || [];
+const SLIDER_SETTINGS = {
+  dots: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 
-  if (!projectData.length) return null;
+function HobbySlide({ title, description, demoUrl }) {
+  return (
+    <div>
+      <div className="showcase-card">
+        <div className="showcase-card__body">
+          <div className="showcase-card__header">
+            <h5 className="showcase-card__title">{title}</h5>
+            <p className="showcase-card__desc">{description}</p>
+          </div>
+          {demoUrl && (
+            <div className="showcase-card__media">
+              <img src={demoUrl} alt={title} />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  const settings = {
-    dots: true,
-    infinite: projectData.length > 1,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 768, settings: { slidesToShow: 1 } },
-      { breakpoint: 992, settings: { slidesToShow: 1 } },
-    ],
-  };
+export default function Projects({ portfolio }) {
+  const hobbies = portfolio?.projectData || [];
+
+  if (!hobbies.length) return null;
 
   return (
-    <section id="why-work-with-me" className="projects section">
+    <section id="why-work-with-me" className="showcase section">
       <div className="container">
-        <div className="section-title">
-          <h3 className="wow zoomIn" data-wow-delay=".2s">Why Work With Me</h3>
-          <h2 className="wow fadeInUp" data-wow-delay=".4s">Hobbies & Interests</h2>
-          <h5 className="wow fadeInUp" data-wow-delay=".6s">
-            A glimpse into the things I enjoy outside of work
-          </h5>
+        <div className="showcase__intro">
+          <h3>Why Work With Me</h3>
+          <h2>Hobbies &amp; Interests</h2>
+          <h5>A glimpse into the things I enjoy outside of work</h5>
         </div>
 
-        <Slider {...settings}>
-          {projectData.map((hobby, index) => (
-            <div key={index}>
-              <div className="card hobby-card">
-                <div className="card-content">
-                  <div className="card-header">
-                    <h5 className="card-title">{hobby.title}</h5>
-                    <p className="card-description">{hobby.description}</p>
-                  </div>
-                  {hobby.demoUrl && (
-                    <div className="demo-container hobby-image-container">
-                      <img src={hobby.demoUrl} alt={hobby.title} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+        <Slider {...SLIDER_SETTINGS} infinite={hobbies.length > 1}>
+          {hobbies.map((hobby, i) => (
+            <HobbySlide key={i} title={hobby.title} description={hobby.description} demoUrl={hobby.demoUrl} />
           ))}
         </Slider>
       </div>
     </section>
   );
-};
-
-export default Projects;
+}

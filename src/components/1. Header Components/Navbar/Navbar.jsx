@@ -1,59 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 
-const Navbar = ({ portfolio }) => {
-  const resumeUrl = portfolio?.name?.url || '';
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const DESKTOP_BREAKPOINT_PX = 992;
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+const LINKS = [
+  { href: '#Experience', label: 'Experience' },
+  { href: '#AboutMe', label: 'About Me' },
+  { href: '#ContactMe', label: 'Contact Me' },
+];
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 992) setIsMenuOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    function closeOnDesktop() {
+      if (window.innerWidth >= DESKTOP_BREAKPOINT_PX) setOpen(false);
+    }
+    window.addEventListener('resize', closeOnDesktop);
+    return () => window.removeEventListener('resize', closeOnDesktop);
   }, []);
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg ${isMenuOpen ? 'navbar-open' : ''}`}>
+      <nav className={`navbar navbar-expand-lg site-nav ${open ? 'site-nav--open' : ''}`}>
         <div className="container-fluid">
           <button
-            className={`navbar-toggler custom-toggler ${isMenuOpen ? 'open' : ''}`}
             type="button"
-            onClick={toggleMenu}
+            className={`navbar-toggler site-nav__toggle ${open ? 'site-nav__toggle--active' : ''}`}
+            onClick={() => setOpen(o => !o)}
             aria-label="Toggle navigation"
+            aria-expanded={open}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
 
-          <div className={`collapse navbar-collapse justify-content-center ${isMenuOpen ? 'show slide-in' : ''}`}>
+          <div className={`collapse navbar-collapse justify-content-center site-nav__menu ${open ? 'show site-nav__menu--open' : ''}`}>
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <a href="#Experience" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
-                  <span className='link-span'>Experience</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="#AboutMe" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
-                  <span className='link-span'>About Me</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="#ContactMe" className={`nav-link ${isMenuOpen ? 'not-blurred' : ''}`}>
-                  <span className='link-span'>Contact Me</span>
-                </a>
-              </li>
+              {LINKS.map(link => (
+                <li className="nav-item" key={link.href}>
+                  <a href={link.href} className="nav-link site-nav__link" onClick={() => setOpen(false)}>
+                    <span className="site-nav__link-text">{link.label}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       </nav>
-      {isMenuOpen && <div className="hero-blur" />}
+      {open && <div className="site-nav__scrim" />}
     </>
   );
-};
-
-export default Navbar;
+}

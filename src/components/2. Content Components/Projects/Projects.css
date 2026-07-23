@@ -1,39 +1,49 @@
 @import url('../../../assets/css/main.css');
 
-h2, h3 {
+.showcase h2,
+.showcase h3 {
   text-align: center;
 }
 
-.hobby-card {
-  background-color: var(--light-color);
+.showcase__intro h2,
+.showcase__intro h3,
+.showcase__intro h5,
+.showcase__intro p {
+  color: var(--color-surface) !important;
+}
+
+.showcase-card {
   max-width: 650px;
   margin: 0 auto 30px auto;
+  background-color: var(--color-surface);
   border-radius: 6px;
-  box-shadow: 0 2px 4px var(--medium-color);
+  box-shadow: 0 2px 4px var(--color-ink);
 }
 
-.card-content {
+.showcase-card__body {
   padding: 20px;
-  background-color: var(--light-color) !important;
-}
-
-.card-header {
-  margin-bottom: 1rem;
-  background-color: var(--light-color) !important;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  background-color: var(--color-surface) !important;
   text-align: left;
 }
 
-.card-description {
-  margin-bottom: 20px;
+.showcase-card__header {
+  margin-bottom: 1rem;
+  background-color: var(--color-surface) !important;
+  text-align: left;
 }
 
-.hobby-image-container {
+.showcase-card__title {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.showcase-card__desc {
+  margin: 0 auto 20px 0;
+  text-align: left;
+}
+
+.showcase-card__media {
   width: 100%;
   max-width: 420px;
   height: 260px;
@@ -42,7 +52,7 @@ h2, h3 {
   border-radius: 8px;
 }
 
-.hobby-image-container img {
+.showcase-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -50,8 +60,8 @@ h2, h3 {
 
 .slick-prev:before,
 .slick-next:before {
-  color: var(--dark-color);
   font-size: 30px;
+  color: var(--accent-color);
 }
 
 .slick-prev {
@@ -60,31 +70,4 @@ h2, h3 {
 
 .slick-next {
   right: -30px;
-}
-
-.section-title h2,
-.section-title h3,
-.section-title h5,
-.section-title p {
-  color: #ffffff !important;
-}
-
-.hobby-card .card-header {
-  text-align: left;
-}
-
-.hobby-card .card-description {
-  text-align: left;
-}
-
-.projects .hobby-card .card-content,
-.projects .hobby-card .card-header,
-.projects .hobby-card .card-title,
-.projects .hobby-card .card-description {
-  text-align: left !important;
-}
-
-.projects .hobby-card .card-description {
-  margin-left: 0;
-  margin-right: auto;
 }

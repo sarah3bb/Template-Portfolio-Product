@@ -1,48 +1,53 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Typewriter.css';
 
-const TYPING_SPEED = 150;
-const BACKSPACE_SPEED = 50;
-const PAUSE_DURATION = 1500;
+const TYPE_MS = 150;
+const DELETE_MS = 50;
+const HOLD_MS = 1500;
 
-function Typewriter({ typeWriterText = [] }) {
-  const [skill, setSkill] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [isFullyDisplayed, setIsFullyDisplayed] = useState(false);
+/** Cycles through `words`, typing and deleting each one in turn. */
+function useTypewriter(words) {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [text, setText] = useState('');
+  const [deleting, setDeleting] = useState(false);
+
+  const target = words.length ? words[wordIndex % words.length] : '';
+  const fullyTyped = !deleting && target.length > 0 && text === target;
 
   useEffect(() => {
-    if (!typeWriterText.length) return;
+    if (!words.length) return undefined;
 
-    const interval = setInterval(() => {
-      const currentWord = typeWriterText[index % typeWriterText.length];
+    if (fullyTyped) {
+      const id = setTimeout(() => setDeleting(true), HOLD_MS);
+      return () => clearTimeout(id);
+    }
 
-      if (isDeleting) {
-        setSkill(prev => prev.substring(0, prev.length - 1));
-        if (skill.length <= 1) {
-          setIsDeleting(false);
-          setIsFullyDisplayed(false);
-          setIndex(prev => (prev + 1) % typeWriterText.length);
-        }
-      } else {
-        setSkill(currentWord.substring(0, skill.length + 1));
-        if (skill === currentWord) {
-          setIsFullyDisplayed(true);
-          setTimeout(() => setIsDeleting(true), PAUSE_DURATION);
-        }
+    if (deleting) {
+      if (text.length === 0) {
+        setDeleting(false);
+        setWordIndex(i => (i + 1) % words.length);
+        return undefined;
       }
-    }, isFullyDisplayed ? BACKSPACE_SPEED : TYPING_SPEED);
+      const id = setTimeout(() => setText(text.slice(0, -1)), DELETE_MS);
+      return () => clearTimeout(id);
+    }
 
-    return () => clearInterval(interval);
-  }, [skill, isDeleting, index, isFullyDisplayed, typeWriterText]);
+    const id = setTimeout(() => setText(target.slice(0, text.length + 1)), TYPE_MS);
+    return () => clearTimeout(id);
+  }, [words, target, text, deleting, fullyTyped]);
 
-  const blinkingCursor = useMemo(() => (
-    isFullyDisplayed ? null : <span className="blinking-cursor">_</span>
-  ), [isFullyDisplayed]);
+  return { text, cursorVisible: !deleting && !fullyTyped };
+}
+
+export default function Typewriter({ typeWriterText = [] }) {
+  const { text, cursorVisible } = useTypewriter(typeWriterText);
 
   if (!typeWriterText.length) return null;
 
-  return <p>{skill}{blinkingCursor}</p>;
+  return (
+    <p>
+      {text}
+      {cursorVisible && <span className="blinking-cursor">_</span>}
+    </p>
+  );
 }
-
-export default Typewriter;

@@ -1,112 +1,93 @@
 import React, { useRef, useState } from 'react';
-import './ContactMe.css';
 import emailjs from 'emailjs-com';
+import './ContactMe.css';
 
-const ContactMe = ({ emailConfig, email }) => {
-  const form = useRef();
-  const [isMessageSent, setMessageSent] = useState(false);
-  const [error, setError] = useState('');
+const PLACEHOLDER_TOKEN = 'XXXX';
 
-  const { serviceID = '', templateID = '', userID = '' } = emailConfig || {};
-  const emailJsConfigured = serviceID && templateID && userID &&
-    !serviceID.includes('XXXX') && !templateID.includes('XXXX') && !userID.includes('XXXX');
+function isEmailJsConfigured({ serviceID, templateID, userID }) {
+  return Boolean(
+    serviceID && templateID && userID &&
+    ![serviceID, templateID, userID].some(id => id.includes(PLACEHOLDER_TOKEN))
+  );
+}
 
-  const sendEmail = (e) => {
-    e.preventDefault();
-    setError('');
+/** Sends the given form element via EmailJS, tracking status for the caller. */
+function useEmailJsForm({ serviceID, templateID, userID }) {
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
-    emailjs
-      .sendForm(serviceID, templateID, form.current, userID)
+  function submit(formEl) {
+    setStatus('sending');
+    emailjs.sendForm(serviceID, templateID, formEl, userID)
       .then(() => {
-        setMessageSent(true);
-        e.target.reset();
+        setStatus('sent');
+        formEl.reset();
       })
-      .catch(() => {
-        setError('Message failed to send. Please try again or email me directly.');
-      });
-  };
+      .catch(() => setStatus('error'));
+  }
 
-  // If EmailJS isn't configured, show a mailto fallback
-  if (!emailJsConfigured) {
-    return (
-      <section id='ContactMe'>
-        <div className='form-container'>
-          <div className='contact-form-wrapper d-flex justify-content-center'>
-            <div className='contact-form'>
-              <h5 className='title'>Contact Me</h5>
-              <p className='description'>Let's work together!</p>
-              {email ? (
-                <a
-                  href={`mailto:${email}`}
-                  className='submit-button'
-                  style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
-                >
-                  Send me an email
-                </a>
-              ) : (
-                <p style={{ color: '#9ca3af' }}>Contact information coming soon.</p>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-    );
+  return { status, submit };
+}
+
+function MailtoFallback({ email }) {
+  return (
+    <div className="contact-card__body">
+      <h5 className="contact-card__title">Contact Me</h5>
+      <p className="contact-card__subtitle">Let&apos;s work together!</p>
+      {email ? (
+        <a href={`mailto:${email}`} className="contact-card__submit contact-card__submit--link">
+          Send me an email
+        </a>
+      ) : (
+        <p className="contact-card__empty-note">Contact information coming soon.</p>
+      )}
+    </div>
+  );
+}
+
+export default function ContactMe({ emailConfig, email }) {
+  const formRef = useRef(null);
+  const config = emailConfig || {};
+  const configured = isEmailJsConfigured(config);
+  const { status, submit } = useEmailJsForm(config);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    submit(e.target);
   }
 
   return (
-    <section id='ContactMe'>
-      <div className='form-container wow fadeInRight' data-wow-delay='.4s'>
-        <div className='contact-form-wrapper d-flex justify-content-center'>
-          <form ref={form} onSubmit={sendEmail} className='contact-form'>
-            <h5 className='title'>Contact Me</h5>
-            <p className='description'>Let's work together!</p>
+    <section id="ContactMe">
+      <div className="contact-card">
+        <div className="contact-card__frame">
+          {!configured ? (
+            <MailtoFallback email={email} />
+          ) : (
+            <form ref={formRef} onSubmit={handleSubmit} className="contact-card__body">
+              <h5 className="contact-card__title">Contact Me</h5>
+              <p className="contact-card__subtitle">Let&apos;s work together!</p>
 
-            <div>
-              <input
-                type='text'
-                className='form-control rounded border-white mb-3 form-input'
-                name='user_name'
-                placeholder='Name'
-                required
-              />
-            </div>
-            <div>
-              <input
-                type='email'
-                className='form-control rounded border-white mb-3 form-input'
-                name='user_email'
-                placeholder='Email'
-                required
-              />
-            </div>
-            <div>
-              <textarea
-                className='form-control rounded border-white mb-3 form-text-area'
-                name='message'
-                rows='5'
-                cols='30'
-                placeholder='Message'
-                required
-              ></textarea>
-            </div>
+              <input type="text" name="user_name" placeholder="Name" className="contact-card__field" required />
+              <input type="email" name="user_email" placeholder="Email" className="contact-card__field" required />
+              <textarea name="message" rows="5" placeholder="Message" className="contact-card__field contact-card__field--area" required />
 
-            {error && <p style={{ color: '#fca5a5', fontSize: '0.85rem', marginBottom: '0.75rem' }}>{error}</p>}
+              {status === 'error' && (
+                <p className="contact-card__error">Message failed to send. Please try again or email me directly.</p>
+              )}
 
-            <div className='submit-button-wrapper' data-wow-delay='.6s'>
-              {!isMessageSent ? (
-                <button type='submit' className='submit-button'>Send</button>
-              ) : (
-                <div className='success-message'>
+              {status === 'sent' ? (
+                <div className="contact-card__success">
                   <h4>Message Sent Successfully!</h4>
                   <p>Thank you for contacting me.</p>
                 </div>
+              ) : (
+                <button type="submit" className="contact-card__submit" disabled={status === 'sending'}>
+                  {status === 'sending' ? 'Sending…' : 'Send'}
+                </button>
               )}
-            </div>
-          </form>
+            </form>
+          )}
         </div>
       </div>
     </section>
   );
-};
-
-export default ContactMe;
+}
