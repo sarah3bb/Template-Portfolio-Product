@@ -174,6 +174,14 @@ export default function AppearancePanel({ theme, onChange }) {
                   {(c.bgColor || '') === p.value && <span style={{ color: p.value ? undefined : '#fff' }}>✓</span>}
                 </button>
               ))}
+              <label className="ap-color-custom" title="Pick a custom background colour">
+                <input
+                  type="color"
+                  value={c.bgColor || '#0f172a'}
+                  onChange={e => update('bgColor', e.target.value)}
+                />
+                <span>Custom</span>
+              </label>
             </div>
           </div>
 
