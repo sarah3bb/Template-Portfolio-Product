@@ -15,6 +15,9 @@ dist-ssr
 .env.local
 .env.production
 
+# Supabase CLI local state (project link info, pooler URL — not for version control)
+supabase/.temp
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
