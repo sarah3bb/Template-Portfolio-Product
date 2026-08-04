@@ -45,6 +45,11 @@
   border-color: #c79b3b;
 }
 
+.timeline-card:focus-visible {
+  outline: 3px solid rgba(199, 155, 59, 0.5);
+  outline-offset: 4px;
+}
+
 .timeline-year,
 .timeline-company,
 .timeline-location {
@@ -90,21 +95,163 @@
 .timeline-modal {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 999;
+  background: rgba(35, 16, 25, 0.68);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 1200;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  overflow-y: auto;
 }
 
 .timeline-modal-content {
-  max-width: 600px;
+  position: relative;
+  max-width: 680px;
   width: 100%;
-  padding: 2rem;
-  border-radius: 18px;
-  background: #dbd0d0;
-  color: white;
+  max-height: min(82vh, 760px);
+  overflow-y: auto;
+  padding: clamp(1.75rem, 5vw, 3.25rem);
+  border-radius: 24px;
+  background: #fff8fa;
+  color: #2c1721;
+  border: 1px solid #eccdd8;
+  box-shadow:
+    0 28px 80px rgba(30, 10, 19, 0.34),
+    0 8px 28px rgba(83, 31, 51, 0.18);
+}
+
+.timeline-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e8c9d4;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #4c2535;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(68, 25, 42, 0.1);
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.timeline-modal-close:hover {
+  transform: translateY(-1px);
+  background: #fbeaf0;
+  box-shadow: 0 5px 16px rgba(68, 25, 42, 0.16);
+}
+
+.timeline-modal-close:focus-visible {
+  outline: 3px solid rgba(176, 72, 111, 0.35);
+  outline-offset: 3px;
+}
+
+.timeline-modal-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 3.25rem 0.8rem 0;
+  color: #a13f64;
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.timeline-modal-content h3 {
+  margin: 0;
+  max-width: 90%;
+  color: #28131d;
+  font-size: clamp(1.85rem, 5vw, 2.65rem);
+  font-weight: 760;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.timeline-modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.15rem;
+  margin-top: 1.15rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #ead5dc;
+  color: #755566;
+  font-size: 0.92rem;
+  font-weight: 550;
+}
+
+.timeline-modal-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.timeline-modal-meta svg {
+  color: #b04b70;
+  flex: 0 0 auto;
+}
+
+.timeline-modal-description {
+  margin: 1.5rem 0 0;
+  color: #543746;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  white-space: pre-line;
+}
+
+.timeline-modal-achievements {
+  margin-top: 2rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid #efd5df;
+  border-radius: 16px;
+  background: #fff0f5;
+}
+
+.timeline-modal-achievements h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1rem;
+  color: #371b27;
+  font-size: 1rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+
+.timeline-modal-achievements h4 svg {
+  color: #b34870;
+}
+
+.timeline-achievement-list {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-achievement-list li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: #4b303d;
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
+
+.timeline-achievement-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.66em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b34870;
+  box-shadow: 0 0 0 4px rgba(179, 72, 112, 0.11);
 }
 
 @media (max-width: 768px) {
@@ -122,6 +269,32 @@
 
   .timeline-card {
     width: 100%;
+  }
+
+  .timeline-modal {
+    align-items: flex-end;
+    padding: 0.75rem;
+  }
+
+  .timeline-modal-content {
+    max-height: 88vh;
+    padding: 2rem 1.25rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .timeline-modal-content h3 {
+    max-width: calc(100% - 3rem);
+  }
+
+  .timeline-modal-achievements {
+    padding: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-modal-content,
+  .timeline-modal-close {
+    transition: none;
   }
 }
 

@@ -1,10 +1,67 @@
-import { useState } from 'react';
+/* eslint-disable react/prop-types */
+import { useEffect, useId, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Briefcase } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, X, Sparkles } from 'lucide-react';
 import './InteractiveTimeline.css';
 
 export default function InteractiveTimeline({ experience = [] }) {
   const [selectedItem, setSelectedItem] = useState(null);
+  const dialogRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const triggerRef = useRef(null);
+  const titleId = useId();
+  const descriptionId = useId();
+
+  function openDetails(itemKey) {
+    triggerRef.current = document.activeElement;
+    setSelectedItem(itemKey);
+  }
+
+  function closeDetails() {
+    setSelectedItem(null);
+  }
+
+  useEffect(() => {
+    if (selectedItem === null) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeDetails();
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+      const focusable = dialogRef.current?.querySelectorAll(
+        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+      triggerRef.current?.focus();
+    };
+  }, [selectedItem]);
+
+  const selectedExperience = experience.find((item, index) => (item.id || index) === selectedItem);
 
   if (!experience.length) {
     return (
@@ -28,7 +85,16 @@ export default function InteractiveTimeline({ experience = [] }) {
         >
           <div
             className="timeline-card"
-            onClick={() => setSelectedItem(selectedItem === (item.id || index) ? null : (item.id || index))}
+            role="button"
+            tabIndex={0}
+            aria-haspopup="dialog"
+            onClick={() => openDetails(item.id || index)}
+            onKeyDown={event => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openDetails(item.id || index);
+              }
+            }}
           >
             <div className="timeline-year">
               <Calendar size={16} />
@@ -69,31 +135,49 @@ export default function InteractiveTimeline({ experience = [] }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedItem(null)}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            onMouseDown={event => event.target === event.currentTarget && closeDetails()}
           >
             <motion.div
+              ref={dialogRef}
               className="timeline-modal-content"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              onClick={e => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              aria-describedby={selectedExperience?.description ? descriptionId : undefined}
+              initial={{ opacity: 0, scale: 0.96, y: 18 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97, y: 12 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
             >
               {(() => {
                 const item = experience.find((i, idx) => (i.id || idx) === selectedItem);
                 if (!item) return null;
                 return (
                   <>
-                    <h3>{item.title}</h3>
-                    {item.description && <p>{item.description}</p>}
+                    <button ref={closeButtonRef} type="button" className="timeline-modal-close" onClick={closeDetails} aria-label="Close experience details">
+                      <X size={20} aria-hidden="true" />
+                    </button>
+
+                    <div className="timeline-modal-eyebrow"><Briefcase size={15} aria-hidden="true" /> Experience details</div>
+                    <h3 id={titleId}>{item.title}</h3>
+
+                    <div className="timeline-modal-meta" aria-label="Role details">
+                      {item.company && <span><Briefcase size={16} aria-hidden="true" />{item.company}</span>}
+                      {item.location && <span><MapPin size={16} aria-hidden="true" />{item.location}</span>}
+                      {item.year && <span><Calendar size={16} aria-hidden="true" />{item.year}</span>}
+                    </div>
+
+                    {item.description && <p id={descriptionId} className="timeline-modal-description">{item.description}</p>}
                     {item.achievements && item.achievements.length > 0 && (
-                      <>
-                        <h4>Key Achievements</h4>
-                        <ul>
+                      <section className="timeline-modal-achievements" aria-labelledby={`${titleId}-achievements`}>
+                        <h4 id={`${titleId}-achievements`}><Sparkles size={18} aria-hidden="true" />Key Achievements</h4>
+                        <ul className="timeline-achievement-list">
                           {item.achievements.map((achievement, i) => (
                             <li key={i}>{achievement}</li>
                           ))}
                         </ul>
-                      </>
+                      </section>
                     )}
                   </>
                 );
