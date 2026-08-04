@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { SubscriptionProvider } from './context/SubscriptionContext';
 import App from './App';
 
 // Vendor + third-party stylesheets
@@ -32,7 +33,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ThemeProvider>
         <BrowserRouter>
           <AuthProvider>
-            <App />
+            <SubscriptionProvider>
+              <App />
+            </SubscriptionProvider>
           </AuthProvider>
         </BrowserRouter>
       </ThemeProvider>

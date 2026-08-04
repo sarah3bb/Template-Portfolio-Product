@@ -1,0 +1,62 @@
+.acr-card {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.acr-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  font-family: system-ui, sans-serif;
+}
+.acr-toggle:hover { color: var(--text-2); }
+
+.acr-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.acr-input {
+  flex: 1;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-1);
+  font-family: system-ui, sans-serif;
+}
+.acr-input:focus { outline: 2px solid var(--accent-ring); border-color: var(--accent); }
+
+.acr-submit {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  color: var(--text-1);
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: system-ui, sans-serif;
+}
+.acr-submit:hover { border-color: var(--accent); }
+.acr-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.acr-message-success {
+  color: var(--success);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-family: system-ui, sans-serif;
+}
+
+.acr-message-error {
+  color: var(--err-text);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-family: system-ui, sans-serif;
+}

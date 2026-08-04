@@ -15,8 +15,6 @@
   box-shadow: var(--shadow-card);
 }
 
-.acc-card-muted { opacity: 0.65; }
-
 .acc-title {
   font-size: 0.95rem;
   font-weight: 700;
@@ -64,31 +62,4 @@
 .acc-btn-danger:hover {
   background: var(--err-bg);
   border-color: var(--err-text);
-}
-
-.acc-coming-soon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: var(--accent-muted);
-  color: var(--accent-light);
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.2rem 0.5rem;
-  border-radius: 20px;
-  font-family: system-ui, sans-serif;
-}
-
-.acc-plan-badge {
-  display: inline-block;
-  background: var(--bg-raised);
-  border: 1px solid var(--border-strong);
-  color: var(--text-3);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-family: system-ui, sans-serif;
 }

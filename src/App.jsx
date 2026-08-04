@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import PortfolioPage from './pages/PortfolioPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import PaymentCancelPage from './pages/PaymentCancelPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const PUBLIC_ROUTES = [
@@ -37,6 +39,24 @@ export default function App() {
         element={
           <ProtectedRoute user={user} loading={loading}>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/checkout/success"
+        element={
+          <ProtectedRoute user={user} loading={loading}>
+            <PaymentSuccessPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/checkout/cancel"
+        element={
+          <ProtectedRoute user={user} loading={loading}>
+            <PaymentCancelPage />
           </ProtectedRoute>
         }
       />

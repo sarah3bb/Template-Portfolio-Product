@@ -27,17 +27,6 @@ export default function AccountPanel({ user, onSignOut }) {
         </button>
       </div>
 
-      {/* Billing placeholder */}
-      <div className="acc-card acc-card-muted">
-        <div className="acc-coming-soon">Coming soon</div>
-        <h3 className="acc-title">Plan & billing</h3>
-        <p className="acc-desc">
-          Upgrade to unlock custom domains, premium themes, analytics, and more.
-          Billing powered by Stripe — coming soon.
-        </p>
-        <div className="acc-plan-badge">Free Plan</div>
-      </div>
-
     </div>
   );
 }

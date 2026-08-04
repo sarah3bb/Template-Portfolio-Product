@@ -217,6 +217,18 @@
   width: 100%;
 }
 
+/* Strips default browser <fieldset> chrome (border, padding, min-width) and
+   removes it from the layout entirely via display:contents, so wrapping a
+   tab's content in one to lock editing has zero visual effect — only the
+   disabled cascade to descendant form controls matters. */
+.dash-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: contents;
+}
+
 /* ── Loading ── */
 .dash-loading {
   display: flex;

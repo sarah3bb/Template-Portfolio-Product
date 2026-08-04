@@ -1,0 +1,16 @@
+project_id = "your-project-ref"
+
+[functions.create-checkout-session]
+verify_jwt = true
+
+[functions.create-customer-portal-session]
+verify_jwt = true
+
+[functions.redeem-access-code]
+verify_jwt = true
+
+# Stripe calls this endpoint directly and cannot present a Supabase JWT.
+# Authenticity is instead verified via the Stripe-Signature header inside
+# the function itself (see stripe-webhook/index.ts).
+[functions.stripe-webhook]
+verify_jwt = false

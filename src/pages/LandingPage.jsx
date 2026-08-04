@@ -1,9 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { useSubscription } from '../hooks/useSubscription';
+import { startCheckout } from '../services/subscriptionService';
 import './LandingPage.css';
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { loading: subLoading, hasEditingAccess, canStartTrial, canRestartSubscription } = useSubscription();
+  const [starting, setStarting] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+
+  // Signed-out -> account creation with an intended trial-signup destination.
+  // Signed-in + eligible -> straight into checkout.
+  // Signed-in + already has access -> dashboard.
+  // Signed-in + former subscriber / expired trial -> billing, to restart.
+  async function handleStartTrial() {
+    setCheckoutError('');
+
+    if (!user) {
+      navigate('/login?intent=trial');
+      return;
+    }
+    if (subLoading || starting) return;
+
+    if (hasEditingAccess) {
+      navigate('/dashboard');
+      return;
+    }
+    if (canRestartSubscription) {
+      navigate('/dashboard?tab=billing');
+      return;
+    }
+    if (canStartTrial) {
+      setStarting(true);
+      try {
+        const { url } = await startCheckout(crypto.randomUUID());
+        window.location.href = url;
+      } catch (err) {
+        setStarting(false);
+        setCheckoutError(err.message || 'Could not start checkout. Please try again.');
+      }
+      return;
+    }
+
+    // Any other state (e.g. incomplete/paused subscription) — send to billing.
+    navigate('/dashboard?tab=billing');
+  }
 
   return (
     <div className="landing-page">
@@ -22,13 +66,14 @@ export default function LandingPage() {
           no config files.
         </p>
         <div className="landing-cta">
-          <button className="landing-btn-primary" onClick={() => navigate('/login')}>
-            Get Started — It's Free
+          <button className="landing-btn-primary" onClick={handleStartTrial} disabled={starting}>
+            {starting ? 'Loading…' : "Get Started — It's Free"}
           </button>
           <button className="landing-btn-secondary" onClick={() => navigate('/p/demo')}>
             See a Demo Portfolio
           </button>
         </div>
+        {checkoutError && <p className="landing-cta-error">{checkoutError}</p>}
       </div>
 
       <div className="landing-steps">

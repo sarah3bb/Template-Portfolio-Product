@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { useSubscription } from '../hooks/useSubscription';
 import { useTheme } from '../context/ThemeContext';
 import { checkSlugAvailable } from '../services/portfolioService';
 import { isSupabaseConfigured } from '../lib/supabaseClient';
@@ -22,6 +23,8 @@ import ContactFormSection   from '../components/dashboard/ContactFormSection';
 import AppearancePanel    from '../components/dashboard/AppearancePanel';
 import SharePublishPanel  from '../components/dashboard/SharePublishPanel';
 import AccountPanel       from '../components/dashboard/AccountPanel';
+import BillingPanel       from '../components/dashboard/BillingPanel';
+import ReadOnlyBanner     from '../components/dashboard/ReadOnlyBanner';
 
 import '../components/dashboard/Dashboard.css';
 
@@ -30,6 +33,7 @@ const NAV = [
   { id: 'content',    label: 'Portfolio Content' },
   { id: 'appearance', label: 'Appearance'        },
   { id: 'share',      label: 'Share & Publish'   },
+  { id: 'billing',    label: 'Billing'           },
   { id: 'account',    label: 'Account'           },
 ];
 
@@ -39,6 +43,7 @@ const PANEL_META = {
   content:    { title: 'Portfolio Content',  subtitle: 'Edit everything that appears on your portfolio.' },
   appearance: { title: 'Appearance',          subtitle: 'Customise colours, fonts, and layout.' },
   share:      { title: 'Share & Publish',     subtitle: 'Control who can see your portfolio and share your link.' },
+  billing:    { title: 'Billing',             subtitle: 'Manage your plan and editing access.' },
   account:    { title: 'Account',             subtitle: 'Manage your login and plan.' },
 };
 
@@ -47,6 +52,7 @@ const STATUS_LABEL = {
   saving:  'Saving…',
   saved:   'Saved',
   error:   'Save failed — retry',
+  locked:  'Editing locked — subscription required',
 };
 
 const AUTOSAVE_DELAY_MS = 1000;
@@ -57,6 +63,7 @@ export default function DashboardPage() {
   const { user, signOut }           = useAuth();
   const { portfolio, loading, error, save } = usePortfolio(user);
   const { syncFromSupabase, setPreference } = useTheme();
+  const { hasEditingAccess }        = useSubscription();
 
   // Reset to system preference on logout so the landing page
   // always follows the OS setting for visitors who aren't logged in.
@@ -173,7 +180,7 @@ export default function DashboardPage() {
 
   // Scroll position per tab — single listener for the component's lifetime,
   // throttled to one update per animation frame.
-  const scrollPositions = useRef({ content: 0, appearance: 0, share: 0, account: 0 });
+  const scrollPositions = useRef({ content: 0, appearance: 0, share: 0, billing: 0, account: 0 });
   const activeTabRef    = useRef(activeTab);
   useEffect(() => { activeTabRef.current = activeTab; }, [activeTab]);
 
@@ -202,6 +209,14 @@ export default function DashboardPage() {
   // Core save routine, shared by autosave and the manual "Save now" button.
   async function performSave(data, { redirectOnSlugError = false } = {}) {
     if (!data) return;
+
+    // The RLS policy on portfolios already rejects this write server-side;
+    // this guard just avoids silently retrying a doomed request on every
+    // autosave cycle and shows the user why nothing is being saved.
+    if (!hasEditingAccess) {
+      setStatus('locked');
+      return;
+    }
 
     if (savingRef.current) {
       pendingRef.current = true;
@@ -354,6 +369,10 @@ export default function DashboardPage() {
 
         {/* Main content area */}
         <main className="dash-main">
+          {!hasEditingAccess && (
+            <ReadOnlyBanner onRestart={() => setActiveTab('billing')} />
+          )}
+
           <div className="dash-panel-header">
             <h2 className="dash-panel-title">{meta.title}</h2>
             <p className="dash-panel-subtitle">{meta.subtitle}</p>
@@ -363,36 +382,48 @@ export default function DashboardPage() {
           {slugError && <div className="dash-error">{slugError}</div>}
 
           {/* ── Content tab ─────────────────────── */}
+          {/* Editing is enforced server-side via RLS (can_edit_portfolio) —
+              this fieldset is UX only, disabling every descendant control
+              with no prop-threading through each section. */}
           {activeTab === 'content' && (
-            <div className="dash-content">
-              <BasicInfoSection    form={form} onChange={handleChange} />
-              <ImagesSection       userId={user.id} form={form} onChange={handleChange} />
-              <AboutSection        form={form} onChange={handleChange} />
-              <ExperienceSection   form={form} onChange={handleChange} />
-              <SocialLinksSection  form={form} onChange={handleChange} />
-              <TypewriterSection   form={form} onChange={handleChange} />
-              <AchievementsSection form={form} onChange={handleChange} />
-              <HobbiesSection      userId={user.id} form={form} onChange={handleChange} />
-              <ContactFormSection  form={form} onChange={handleChange} />
-            </div>
+            <fieldset className="dash-fieldset" disabled={!hasEditingAccess}>
+              <div className="dash-content">
+                <BasicInfoSection    form={form} onChange={handleChange} />
+                <ImagesSection       userId={user.id} form={form} onChange={handleChange} />
+                <AboutSection        form={form} onChange={handleChange} />
+                <ExperienceSection   form={form} onChange={handleChange} />
+                <SocialLinksSection  form={form} onChange={handleChange} />
+                <TypewriterSection   form={form} onChange={handleChange} />
+                <AchievementsSection form={form} onChange={handleChange} />
+                <HobbiesSection      userId={user.id} form={form} onChange={handleChange} />
+                <ContactFormSection  form={form} onChange={handleChange} />
+              </div>
+            </fieldset>
           )}
 
           {/* ── Appearance tab ──────────────────── */}
           {activeTab === 'appearance' && (
-            <AppearancePanel
-              theme={form.theme || {}}
-              onChange={value => handleChange('theme', value)}
-            />
+            <fieldset className="dash-fieldset" disabled={!hasEditingAccess}>
+              <AppearancePanel
+                theme={form.theme || {}}
+                onChange={value => handleChange('theme', value)}
+              />
+            </fieldset>
           )}
 
           {/* ── Share & Publish tab ─────────────── */}
           {activeTab === 'share' && (
-            <SharePublishPanel
-              form={form}
-              onChange={handleChange}
-              publicUrl={publicUrl}
-            />
+            <fieldset className="dash-fieldset" disabled={!hasEditingAccess}>
+              <SharePublishPanel
+                form={form}
+                onChange={handleChange}
+                publicUrl={publicUrl}
+              />
+            </fieldset>
           )}
+
+          {/* ── Billing tab ──────────────────────── */}
+          {activeTab === 'billing' && <BillingPanel />}
 
           {/* ── Account tab ─────────────────────── */}
           {activeTab === 'account' && (

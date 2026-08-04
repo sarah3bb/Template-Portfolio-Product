@@ -61,6 +61,7 @@
   transition: background 0.15s;
 }
 .landing-btn-primary:hover { background: var(--accent-hover); }
+.landing-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .landing-btn-secondary {
   background: transparent;
@@ -86,6 +87,12 @@
   font-family: inherit;
 }
 .landing-btn-outline:hover { border-color: var(--accent); color: var(--text-1); }
+
+.landing-cta-error {
+  margin-top: 1rem;
+  color: var(--err-text);
+  font-size: 0.9rem;
+}
 
 .landing-steps {
   display: flex;
