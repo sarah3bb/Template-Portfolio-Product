@@ -7,10 +7,10 @@ Deno.serve(async (req) => {
   const preflight = handleOptions(req);
   if (preflight) return preflight;
 
-  if (req.method !== "POST") return json(405, { error: "method not allowed" });
+  if (req.method !== "POST") return json(req, 405, { error: "method not allowed" });
 
   const { data: { user } } = await userClient(req).auth.getUser();
-  if (!user) return json(401, { error: "unauthorized" });
+  if (!user) return json(req, 401, { error: "unauthorized" });
 
   try {
     // Always the caller's OWN customer id — never accepted from the browser.
@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (!bc?.stripe_customer_id) {
-      return json(404, { error: "No billing account found for this user." });
+      return json(req, 404, { error: "No billing account found for this user." });
     }
 
     const portalSession = await stripe.billingPortal.sessions.create({
@@ -29,9 +29,9 @@ Deno.serve(async (req) => {
       return_url: `${SITE_URL}/dashboard?tab=billing`,
     });
 
-    return json(200, { url: portalSession.url });
+    return json(req, 200, { url: portalSession.url });
   } catch (err) {
     console.error("[create-customer-portal-session] error", err instanceof Error ? err.message : err);
-    return json(500, { error: "Could not open billing portal. Please try again." });
+    return json(req, 500, { error: "Could not open billing portal. Please try again." });
   }
 });

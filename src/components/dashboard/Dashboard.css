@@ -591,3 +591,15 @@
   .save-status-saving       { display: none; }
   .dash-section-body        { padding: 1.25rem 1rem; }
 }
+.btn-import-resume {
+  border: 1px solid rgba(129, 140, 248, 0.55);
+  background: rgba(99, 102, 241, 0.1);
+  color: inherit;
+  border-radius: 8px;
+  padding: 0.58rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-import-resume:hover { background: rgba(99, 102, 241, 0.2); }
+.btn-import-resume:disabled { opacity: 0.45; cursor: not-allowed; }

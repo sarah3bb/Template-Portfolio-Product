@@ -9,10 +9,10 @@ Deno.serve(async (req) => {
   const preflight = handleOptions(req);
   if (preflight) return preflight;
 
-  if (req.method !== "POST") return json(405, { error: "method not allowed" });
+  if (req.method !== "POST") return json(req, 405, { error: "method not allowed" });
 
   const { data: { user } } = await userClient(req).auth.getUser();
-  if (!user) return json(401, { error: "unauthorized" });
+  if (!user) return json(req, 401, { error: "unauthorized" });
 
   const body = await req.json().catch(() => ({}));
   const nonce =
@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
       .in("status", ["trialing", "active", "past_due"])
       .limit(1);
     if (blocking && blocking.length > 0) {
-      return json(409, { error: "You already have a subscription in progress." });
+      return json(req, 409, { error: "You already have a subscription in progress." });
     }
 
     // 3. Trial eligibility: normal 7-day trial if never used; otherwise
@@ -110,9 +110,9 @@ Deno.serve(async (req) => {
       { idempotencyKey: `checkout_${user.id}_${nonce}` }
     );
 
-    return json(200, { url: session.url, trialDays });
+    return json(req, 200, { url: session.url, trialDays });
   } catch (err) {
     console.error("[create-checkout-session] error", err instanceof Error ? err.message : err);
-    return json(500, { error: "Could not start checkout. Please try again." });
+    return json(req, 500, { error: "Could not start checkout. Please try again." });
   }
 });

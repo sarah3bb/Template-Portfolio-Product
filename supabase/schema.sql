@@ -47,6 +47,11 @@ create table if not exists public.portfolios (
   categories jsonb default '[]',
   achievements jsonb default '[]',
   projects jsonb default '[]',
+  skills jsonb default '[]',
+  certifications jsonb default '[]',
+  awards jsonb default '[]',
+  languages jsonb default '[]',
+  volunteering jsonb default '[]',
 
   -- Contact form
   emailjs_service_id text,

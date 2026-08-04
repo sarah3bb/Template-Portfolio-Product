@@ -25,6 +25,8 @@ import SharePublishPanel  from '../components/dashboard/SharePublishPanel';
 import AccountPanel       from '../components/dashboard/AccountPanel';
 import BillingPanel       from '../components/dashboard/BillingPanel';
 import ReadOnlyBanner     from '../components/dashboard/ReadOnlyBanner';
+import ResumeImportModal  from '../components/dashboard/ResumeImportModal';
+import { mapResumeToPortfolio } from '../utils/mapResumeToPortfolio';
 
 import '../components/dashboard/Dashboard.css';
 
@@ -80,6 +82,7 @@ export default function DashboardPage() {
   const [sidebarOpen, setSidebar] = useState(false);
   const [slugError, setSlugError] = useState('');
   const [status, setStatus]       = useState('idle'); // idle | unsaved | saving | saved | error
+  const [resumeImporterOpen, setResumeImporterOpen] = useState(false);
 
   // Active tab lives in the URL (?tab=) so it survives a page reload.
   // Read directly from search params on every render (no local state to
@@ -303,6 +306,12 @@ export default function DashboardPage() {
     setSidebar(false); // close on mobile after selection
   }
 
+  function applyImportedResume(resume) {
+    setForm(current => mapResumeToPortfolio(current, resume));
+    setResumeImporterOpen(false);
+    setActiveTab('content');
+  }
+
   const meta = PANEL_META[activeTab];
 
   return (
@@ -326,6 +335,9 @@ export default function DashboardPage() {
               {STATUS_LABEL[status]}
             </span>
           )}
+          <button className="btn-import-resume" onClick={() => setResumeImporterOpen(true)} disabled={!hasEditingAccess}>
+            Import Resume
+          </button>
           <button className="btn-save" onClick={handleSave} disabled={status === 'saving'}>
             {status === 'saving' ? 'Saving…' : 'Save now'}
           </button>
@@ -431,6 +443,9 @@ export default function DashboardPage() {
           )}
         </main>
       </div>
+      {resumeImporterOpen && (
+        <ResumeImportModal onClose={() => setResumeImporterOpen(false)} onApply={applyImportedResume} />
+      )}
     </div>
   );
 }

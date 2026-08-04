@@ -24,15 +24,15 @@ Deno.serve(async (req) => {
   const preflight = handleOptions(req);
   if (preflight) return preflight;
 
-  if (req.method !== "POST") return json(405, { success: false, message: GENERIC_FAILURE });
+  if (req.method !== "POST") return json(req, 405, { success: false, message: GENERIC_FAILURE });
 
   const { data: { user } } = await userClient(req).auth.getUser();
-  if (!user) return json(401, { success: false, message: GENERIC_FAILURE });
+  if (!user) return json(req, 401, { success: false, message: GENERIC_FAILURE });
 
   const body = await req.json().catch(() => ({}));
   const code = typeof body.code === "string" ? body.code.trim() : "";
   if (!code || code.length > 100) {
-    return json(200, { success: false, message: GENERIC_FAILURE });
+    return json(req, 200, { success: false, message: GENERIC_FAILURE });
   }
 
   // Per-user rate limit, using the redemption log already required for
@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
     .gte("redeemed_at", windowStart);
 
   if ((count ?? 0) >= RATE_LIMIT_MAX_ATTEMPTS) {
-    return json(429, { success: false, message: "Too many attempts. Please try again later." });
+    return json(req, 429, { success: false, message: "Too many attempts. Please try again later." });
   }
 
   try {
@@ -57,16 +57,16 @@ Deno.serve(async (req) => {
 
     if (error) {
       console.error("[redeem-access-code] rpc error", error.message);
-      return json(500, { success: false, message: "Something went wrong. Please try again." });
+      return json(req, 500, { success: false, message: "Something went wrong. Please try again." });
     }
 
     const success = !!(data as { success?: boolean } | null)?.success;
-    return json(200, {
+    return json(req, 200, {
       success,
       message: success ? "Access code redeemed!" : GENERIC_FAILURE,
     });
   } catch (err) {
     console.error("[redeem-access-code] error", err instanceof Error ? err.message : err);
-    return json(500, { success: false, message: "Something went wrong. Please try again." });
+    return json(req, 500, { success: false, message: "Something went wrong. Please try again." });
   }
 });

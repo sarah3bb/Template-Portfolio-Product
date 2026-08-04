@@ -13,6 +13,7 @@ editing required. Built with React + Vite on the frontend and Supabase
 - **Appearance customization** — accent color, font, image shape, button/card style, layout, and header style, applied live to the public page without touching CSS.
 - **Public portfolio pages** — each user gets `/p/:slug`; content includes a hero section, achievements/stats, an experience timeline, a hobbies carousel, and an about/contact section with an EmailJS-powered contact form.
 - **Image uploads** — profile photo, background image, and hobby images stored in Supabase Storage.
+- **AI resume import** — parses PDF/DOCX resumes, extracts structured profile data with OpenAI, and provides an editable confidence-highlighted preview before applying it.
 - **QR code + share link** — generated per portfolio for easy sharing.
 - **Light/dark theme** for the dashboard, persisted per user.
 
@@ -58,6 +59,18 @@ npm run dev
 ```
 
 Visit `http://localhost:5173`.
+
+### Resume import setup
+
+The OpenAI key is used only by the authenticated `import-resume` Edge Function; never add it to a `VITE_` environment variable.
+
+```shell
+supabase db push
+supabase secrets set OPENAI_API_KEY=your-openai-api-key
+supabase functions deploy import-resume
+```
+
+The function defaults to the current `gpt-5.6` alias. To pin a different extraction model without changing code, set `OPENAI_RESUME_MODEL` as another Supabase secret. For local Edge Function development, put server-only secrets in `supabase/.env.local` and keep that file out of source control.
 
 ### 4. Try it out
 

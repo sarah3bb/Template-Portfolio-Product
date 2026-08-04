@@ -61,6 +61,11 @@ const defaultPortfolio = {
   ],
 
   projects: [],
+  skills: [],
+  certifications: [],
+  awards: [],
+  languages: [],
+  volunteering: [],
 
   emailjs_service_id: '',
   emailjs_template_id: '',
