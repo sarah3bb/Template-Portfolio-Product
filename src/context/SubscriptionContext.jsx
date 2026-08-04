@@ -37,6 +37,10 @@ function deriveStatus(subscription, trialHistory, specialAccessRows) {
     cancelAtPeriodEnd,
     trialEndsAt: subscription?.trial_end || null,
     accessEndsAt: subscription?.current_period_end || null,
+    // Alias of accessEndsAt — same value, kept under both names since UI
+    // code refers to it as "current period end" specifically for active
+    // (non-trial) subscriptions.
+    currentPeriodEnd: subscription?.current_period_end || null,
     complimentaryAccessUntil,
     hasEditingAccess,
     normalTrialUsed,
