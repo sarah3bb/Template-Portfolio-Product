@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { getPasswordResetRedirectUrl } from '../utils/authRedirect';
 
 const AuthContext = createContext(null);
 
@@ -55,7 +56,7 @@ export function AuthProvider({ children }) {
   async function sendPasswordReset(email) {
     if (!isSupabaseConfigured) throw new Error('Supabase is not configured yet.');
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: getPasswordResetRedirectUrl(),
     });
     if (error) throw error;
   }

@@ -1,5 +1,12 @@
 project_id = "your-project-ref"
 
+[auth]
+site_url = "https://template-portfolio-product.vercel.app"
+additional_redirect_urls = [
+  "https://template-portfolio-product.vercel.app/reset-password",
+  "http://localhost:5173/reset-password",
+]
+
 [functions.create-checkout-session]
 verify_jwt = true
 

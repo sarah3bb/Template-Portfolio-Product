@@ -47,10 +47,18 @@ npm install
    ```
    VITE_SUPABASE_URL=https://your-project-id.supabase.co
    VITE_SUPABASE_ANON_KEY=your-anon-key-here
+   VITE_APP_URL=https://template-portfolio-product.vercel.app
    VITE_GOOGLE_MAPS_API_KEY=your-google-places-api-key   # optional — enables city autocomplete
    ```
 
    Without `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY` set, the app shows a setup warning instead of the dashboard/login pages. `VITE_GOOGLE_MAPS_API_KEY` is optional; the Location field falls back to a plain text input without it.
+
+4. In **Supabase Dashboard → Authentication → URL Configuration**, set:
+
+   - Site URL: `https://template-portfolio-product.vercel.app`
+   - Redirect URLs: `https://template-portfolio-product.vercel.app/reset-password` and `http://localhost:5173/reset-password`
+
+   Supabase falls back to the Site URL when a requested auth redirect is not allow-listed, so the production reset-password URL must appear here exactly.
 
 ### 3. Run the dev server
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
+import { getPasswordResetRedirectUrl } from '../utils/authRedirect';
 import './LoginPage.css';
 
 // Two modes:
@@ -19,12 +20,14 @@ export default function ResetPasswordPage({ mode = 'forgot' }) {
   // Detect if Supabase put a recovery session in the URL hash
   useEffect(() => {
     if (mode === 'reset') {
-      supabase.auth.onAuthStateChange((event) => {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY') {
           setInfo('Enter your new password below.');
         }
       });
+      return () => subscription.unsubscribe();
     }
+    return undefined;
   }, [mode]);
 
   async function handleForgot(e) {
@@ -34,7 +37,7 @@ export default function ResetPasswordPage({ mode = 'forgot' }) {
     setLoading(true);
     try {
       await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: getPasswordResetRedirectUrl(),
       });
       setInfo('Check your email for a password reset link. It may take a minute to arrive.');
     } catch (err) {
