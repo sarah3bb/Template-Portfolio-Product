@@ -327,7 +327,7 @@ export default function DashboardPage() {
           >
             ☰
           </button>
-          <span className="dash-topbar-brand">Workfolio</span>
+          <span className="dash-topbar-brand">My Profyle</span>
         </div>
         <div className="dash-topbar-right">
           {STATUS_LABEL[status] && (

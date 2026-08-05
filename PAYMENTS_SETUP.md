@@ -57,7 +57,7 @@ them yourself.
 
 ## Stripe dashboard setup
 
-1. **Product & price** — already created for you: product "Workfolio -
+1. **Product & price** — already created for you: product "My Profyle -
    Easiest Portfolio Builder", monthly price `price_1U0WtM4vhnu5f9MdQR1Easwo`
    (AUD $8/month, test mode). Confirm it in Stripe Dashboard → Product
    catalog.

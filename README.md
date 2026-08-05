@@ -1,4 +1,4 @@
-# Workfolio
+# My Profyle
 
 A multi-user portfolio builder. Each user signs up, edits their portfolio from
 a dashboard, and gets a shareable public page at `/p/their-slug` — no code

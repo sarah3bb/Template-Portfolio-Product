@@ -142,7 +142,7 @@ export default function BillingPanel() {
   } else if (isActive && !cancelAtPeriodEnd) {
     panel = (
       <StatusPanel tone="success" badge="Active subscription" heading="You're subscribed">
-        <p className="bp-status-text">Your Workfolio subscription is active.</p>
+        <p className="bp-status-text">Your My Profyle subscription is active.</p>
         <p className="bp-status-text">Next payment: {PRICE_LABEL} on {formatDate(currentPeriodEnd)}.</p>
       </StatusPanel>
     );
@@ -195,7 +195,7 @@ export default function BillingPanel() {
 
       <div className="bp-card">
         <h3 className="bp-title">Plan &amp; billing</h3>
-        <p className="bp-desc">Workfolio — {PRICE_LABEL}/month after your 7-day free trial.</p>
+        <p className="bp-desc">My Profyle — {PRICE_LABEL}/month after your 7-day free trial.</p>
 
         {!hasEditingAccess && !canStartTrial && (
           <p className="bp-desc">You&rsquo;ve already used your free trial — restarting will bill immediately.</p>
